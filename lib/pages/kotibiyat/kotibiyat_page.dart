@@ -22,7 +22,7 @@ class KotibiyatPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
-                        children: [AdminMenu()],
+                        children: [UniversalMenu()],
                       ),
                     ],
                   ),
