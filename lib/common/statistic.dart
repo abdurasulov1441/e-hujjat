@@ -58,7 +58,7 @@ class StatisticAllWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              SvgPicture.asset('assets/images/e_hujjat.svg'),
+              SvgPicture.asset('assets/images/nazorat_varaqasi.svg'),
               SizedBox(
                 width: 5,
               ),
