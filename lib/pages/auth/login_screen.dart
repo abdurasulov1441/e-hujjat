@@ -1,16 +1,11 @@
 import 'package:e_hujjat/app/router.dart';
 import 'package:e_hujjat/common/helpers/request_helper.dart';
 import 'package:e_hujjat/db/cache.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:elegant_notification/elegant_notification.dart';
 import 'package:elegant_notification/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:e_hujjat/common/style/app_colors.dart';
 import 'package:e_hujjat/common/style/app_style.dart';
-import 'package:go_router/go_router.dart';
-
-import 'package:postgres/postgres.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -58,14 +53,23 @@ class _LoginScreenState extends State<LoginScreen> {
         cache.setString('last_name', response['user']['last_name']);
         switch (response['user']['role_id']) {
           case 1:
-            router.go(Routes.kotibiyatPage);
+            router.go(Routes.supperAdminPage);
 
             break;
           case 2:
-            print('userrrrrrrrrrrrr');
+            router.go(Routes.kotibiyatPage);
             break;
           case 3:
-            print('hodimmmmmmmmmmmmmmmm');
+            router.go(Routes.orinbosarlarPage);
+            break;
+          case 4:
+            router.go(Routes.boshqarmaBoshliqlariPage);
+            break;
+          case 5:
+            router.go(Routes.bolimBoshliqlariPage);
+            break;
+          case 6:
+            router.go(Routes.inspektorlarPage);
             break;
           default:
             print('defolt');
