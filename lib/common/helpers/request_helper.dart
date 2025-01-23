@@ -10,7 +10,7 @@ import '../utils/exceptions.dart';
 
 final class RequestHelper {
   final logger = Logger();
-  final baseUrl = 'https://qoriqlash-xizmati.platon.uz';
+  final baseUrl = 'http://10.100.26.2:5000';
   final dio = Dio();
 
   void logMethod(String message) {

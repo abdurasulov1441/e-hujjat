@@ -1,15 +1,23 @@
+import 'package:e_hujjat/db/cache.dart';
+import 'package:e_hujjat/pages/auth/login_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:e_hujjat/pages/home_page.dart';
 import 'package:e_hujjat/pages/kotibiyat/kotibiyat_page.dart';
 
 abstract final class Routes {
-  static const home = '/';
+  static const home = '/home';
   static const loginPage = '/loginPage';
   static const kotibiyatPage = '/kotibiyatPage';
 }
 
 String _initialLocation() {
-  return Routes.home;
+  final userToken = cache.getString("user_token");
+
+  if (userToken != null) {
+    return Routes.home;
+  } else {
+    return Routes.loginPage;
+  }
 }
 
 Object? _initialExtra() {
@@ -30,6 +38,12 @@ final router = GoRouter(
       path: Routes.kotibiyatPage,
       builder: (context, state) {
         return const KotibiyatPage();
+      },
+    ),
+    GoRoute(
+      path: Routes.loginPage,
+      builder: (context, state) {
+        return const LoginScreen();
       },
     ),
   ],

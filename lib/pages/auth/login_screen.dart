@@ -1,6 +1,13 @@
+import 'package:e_hujjat/app/router.dart';
+import 'package:e_hujjat/common/helpers/request_helper.dart';
+import 'package:e_hujjat/db/cache.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:elegant_notification/elegant_notification.dart';
+import 'package:elegant_notification/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:e_hujjat/common/style/app_colors.dart';
 import 'package:e_hujjat/common/style/app_style.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:postgres/postgres.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,62 +28,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _checkAutoLogin();
-  }
-
-  Future<void> _checkAutoLogin() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedUsername = prefs.getString('username');
-    final savedPassword = prefs.getString('password');
-
-    if (savedUsername != null && savedPassword != null) {
-      _autoLogin(savedUsername, savedPassword);
-    }
-  }
-
-  /// Автоматический вход
-  Future<void> _autoLogin(String username, String password) async {
-    try {
-      final conn = await Connection.open(
-        Endpoint(
-          host: '10.100.9.145',
-          database: 'abdulaziz',
-          username: 'postgres',
-          password: 'fizmasoft7998872',
-        ),
-        settings: ConnectionSettings(sslMode: SslMode.disable),
-      );
-
-      final result = await conn.execute(
-        Sql.named(
-          'SELECT id, username FROM public.users WHERE username=@username AND password=@password',
-        ),
-        parameters: {
-          'username': username,
-          'password': password,
-        },
-      );
-
-      if (result.isNotEmpty) {
-        final userId = result.first.toColumnMap()['id'].toString();
-        final fetchedUsername = result.first.toColumnMap()['username'];
-
-        // Сохраняем данные в `SharedPreferences`, если успешно
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('userId', userId);
-        await prefs.setString('username', fetchedUsername);
-        await prefs.setString('password', password);
-
-        print('Автологин успешен: ID пользователя - $userId');
-        Navigator.pushNamed(context, '/home');
-      } else {
-        print('Неверные данные при автологине.');
-      }
-
-      await conn.close();
-    } catch (e) {
-      print('Ошибка автологина: $e');
-    }
   }
 
   void togglePasswordView() {
@@ -90,65 +41,73 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!isValid) return;
 
     try {
-      final conn = await Connection.open(
-        Endpoint(
-          host: '10.100.9.145',
-          database: 'abdulaziz',
-          username: 'postgres',
-          password: 'fizmasoft7998872',
-        ),
-        settings: ConnectionSettings(sslMode: SslMode.disable),
-      );
+      final response = await requestHelper.post(
+          '/api/auth/login',
+          {
+            'username': emailController.text.trim(),
+            "password": passwordController.text.trim(),
+          },
+          log: true);
+      if (response['accessToken'] != null && response['refreshToken'] != null) {
+        cache.setString('user_token', response['accessToken']);
+        cache.setString('refresh_token', response['refreshToken']);
+        cache.setInt('user_role', response['user']['role_id']);
+        cache.setString('photo', response['user']['photo']);
+        cache.setString('first_name', response['user']['first_name']);
+        cache.setString('surname', response['user']['surname']);
+        cache.setString('last_name', response['user']['last_name']);
+        switch (response['user']['role_id']) {
+          case 1:
+            router.go(Routes.kotibiyatPage);
 
-      final result = await conn.execute(
-        Sql.named(
-          'SELECT id, username FROM public.users WHERE username=@username AND password=@password',
-        ),
-        parameters: {
-          'username': emailController.text.trim(),
-          'password': passwordController.text.trim(),
-        },
-      );
-
-      if (result.isNotEmpty) {
-        final userId = result.first.toColumnMap()['id'].toString();
-        final username = result.first.toColumnMap()['username'];
-        final password = passwordController.text.trim();
-
-        print('Логин успешен! ID пользователя: $userId');
-
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('userId', userId);
-        await prefs.setString('username', username);
-        await prefs.setString('password', password);
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Успешный вход!'),
-            backgroundColor: Colors.green,
-          ),
-        );
-
-        Navigator.pushNamed(context, '/home');
+            break;
+          case 2:
+            print('userrrrrrrrrrrrr');
+            break;
+          case 3:
+            print('hodimmmmmmmmmmmmmmmm');
+            break;
+          default:
+            print('defolt');
+        }
       } else {
-        print('Неверные учётные данные.');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Неверное имя пользователя или пароль.'),
-            backgroundColor: Colors.red,
+        String status = response['message'];
+        ElegantNotification.success(
+          width: 360,
+          isDismissable: false,
+          animationCurve: Curves.easeInOut,
+          position: Alignment.topCenter,
+          animation: AnimationType.fromTop,
+          title: Text('Xatolik'),
+          description: Text(status),
+          onDismiss: () {},
+          onNotificationPressed: () {},
+          shadow: BoxShadow(
+            color: Colors.green,
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 4),
           ),
-        );
+        ).show(context);
       }
-
-      await conn.close();
-    } catch (e) {
-      print('Ошибка подключения к базе данных: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Ошибка: $e'),
-          backgroundColor: Colors.red,
+    } catch (error) {
+      ElegantNotification.success(
+        width: 360,
+        isDismissable: false,
+        animationCurve: Curves.easeInOut,
+        position: Alignment.topCenter,
+        animation: AnimationType.fromTop,
+        title: Text('Xatolik'),
+        description: Text(error.toString()),
+        onDismiss: () {},
+        onNotificationPressed: () {},
+        shadow: BoxShadow(
+          color: Colors.green,
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: const Offset(0, 4),
         ),
-      );
+      ).show(context);
     }
   }
 
