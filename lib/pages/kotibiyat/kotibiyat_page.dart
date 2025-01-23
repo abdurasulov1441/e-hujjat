@@ -1,9 +1,9 @@
-import 'package:e_hujjat/pages/kotibiyat/calendar.dart';
-import 'package:e_hujjat/pages/kotibiyat/diagram.dart';
-import 'package:e_hujjat/pages/kotibiyat/statistic.dart';
+import 'package:e_hujjat/common/calendar.dart';
+import 'package:e_hujjat/common/diagram.dart';
+import 'package:e_hujjat/common/statistic.dart';
 import 'package:flutter/material.dart';
 import 'package:e_hujjat/common/app_bar.dart';
-import 'package:e_hujjat/pages/kotibiyat/menu.dart';
+import 'package:e_hujjat/common/menu.dart';
 import 'package:e_hujjat/common/style/app_colors.dart';
 
 class KotibiyatPage extends StatelessWidget {

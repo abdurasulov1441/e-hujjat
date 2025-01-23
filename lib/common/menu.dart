@@ -4,7 +4,7 @@ import 'package:e_hujjat/db/cache.dart';
 import 'package:elegant_notification/elegant_notification.dart';
 import 'package:elegant_notification/resources/arrays.dart';
 import 'package:flutter/material.dart';
-import 'package:e_hujjat/pages/kotibiyat/menu_button.dart';
+import 'package:e_hujjat/common/menu_button.dart';
 import 'package:e_hujjat/common/style/app_colors.dart';
 
 class UniversalMenu extends StatelessWidget {
