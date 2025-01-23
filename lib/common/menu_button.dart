@@ -8,12 +8,12 @@ class AdminMenuButton extends StatelessWidget {
     super.key,
     required this.name,
     required this.svgname,
-    required this.onPressed, // Qo'shimcha parametr
+    required this.onPressed,
   });
 
   final String name;
   final String svgname;
-  final VoidCallback onPressed; 
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class AdminMenuButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
           ),
         ),
-        onPressed: onPressed, 
+        onPressed: onPressed,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -39,7 +39,7 @@ class AdminMenuButton extends StatelessWidget {
               height: 35,
             ),
             SvgPicture.asset(
-              'assets/images/$svgname.svg',
+              svgname,
               width: 22,
               height: 22,
             ),

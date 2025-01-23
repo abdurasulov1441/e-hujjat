@@ -7,8 +7,37 @@ import 'package:flutter/material.dart';
 import 'package:e_hujjat/common/menu_button.dart';
 import 'package:e_hujjat/common/style/app_colors.dart';
 
-class UniversalMenu extends StatelessWidget {
+class UniversalMenu extends StatefulWidget {
   const UniversalMenu({super.key});
+
+  @override
+  State<UniversalMenu> createState() => _UniversalMenuState();
+}
+
+class _UniversalMenuState extends State<UniversalMenu> {
+  List<String> menu = [];
+  List<String> route = [];
+  List<String> icon = [];
+
+  void initState() {
+    super.initState();
+    getMenu();
+  }
+
+  Future<void> getMenu() async {
+    try {
+      final response =
+          await requestHelper.getWithAuth('/api/references/get-menus');
+
+      for (var item in response) {
+        setState(() {
+          menu.add(item['menu']);
+          route.add(item['route']);
+          icon.add(item['icon']);
+        });
+      }
+    } catch (error) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,40 +82,28 @@ class UniversalMenu extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          AdminMenuButton(
-            name: 'Dashboard',
-            svgname: 'dashboard',
-            onPressed: () {
-              print('Dashboard bosildi');
-            },
-          ),
           SizedBox(
-            height: 10,
-          ),
-          AdminMenuButton(
-            name: 'Bo\'limlar',
-            svgname: 'bolimlar',
-            onPressed: () {
-              print('Bo\'limlar bosildi');
-            },
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          AdminMenuButton(
-            name: 'Foydalanuvchilar',
-            svgname: 'users',
-            onPressed: () {
-              print('Foydalanuvchilar bosildi');
-            },
+            height: 420,
+            child: ListView.separated(
+                separatorBuilder: (context, index) => SizedBox(
+                      height: 10,
+                    ),
+                itemCount: menu.length,
+                itemBuilder: (context, index) {
+                  return AdminMenuButton(
+                    name: menu[index],
+                    svgname: icon[index],
+                    onPressed: () {
+                      router.go(route[index]);
+                    },
+                  );
+                }),
           ),
           Spacer(),
           AdminMenuButton(
             name: 'Chiqish',
-            svgname: 'exit',
-            onPressed: () {
-              _signOut();
-            },
+            svgname: 'assets/images/exit.svg',
+            onPressed: _signOut,
           ),
           SizedBox(
             height: 10,

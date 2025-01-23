@@ -1,3 +1,5 @@
+import 'package:e_hujjat/common/utils/constants.dart';
+import 'package:e_hujjat/db/cache.dart';
 import 'package:flutter/material.dart';
 import 'package:e_hujjat/common/style/app_colors.dart';
 import 'package:e_hujjat/common/style/app_style.dart';
@@ -9,6 +11,10 @@ class MyCustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final name = cache.getString('first_name');
+    final photo = cache.getString('photo');
+    final lastName = cache.getString('last_name');
+
     return Container(
       width: double.infinity,
       height: 60,
@@ -58,11 +64,15 @@ class MyCustomAppBar extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                radius: 20,
-                child: Image.asset(
-                  'assets/images/user.png',
-                  width: 24,
-                  height: 24,
+                radius: 17,
+                backgroundColor: Colors.white,
+                child: ClipOval(
+                  child: Image.network(
+                    '${Constants.imageUrl}$photo',
+                    width: 34,
+                    height: 34,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               SizedBox(
@@ -72,11 +82,11 @@ class MyCustomAppBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Abdulaziz',
+                    name!,
                     style: AppStyle.fontStyle.copyWith(fontSize: 10),
                   ),
                   Text(
-                    'Abdurasulov',
+                    lastName!,
                     style: AppStyle.fontStyle.copyWith(fontSize: 10),
                   ),
                 ],

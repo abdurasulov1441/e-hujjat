@@ -21,7 +21,7 @@ abstract final class Routes {
 }
 
 String _initialLocation() {
-  final userToken = cache.getString("user_token");
+  final userToken = cache.getString("access_token");
 
   if (userToken != null) {
     return Routes.home;

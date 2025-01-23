@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
           },
           log: true);
       if (response['accessToken'] != null && response['refreshToken'] != null) {
-        cache.setString('user_token', response['accessToken']);
+        cache.setString('access_token', response['accessToken']);
         cache.setString('refresh_token', response['refreshToken']);
         cache.setInt('user_role', response['user']['role_id']);
         cache.setString('photo', response['user']['photo']);
@@ -101,8 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
         animationCurve: Curves.easeInOut,
         position: Alignment.topCenter,
         animation: AnimationType.fromTop,
-        title: Text('Xatolik'),
-        description: Text(error.toString()),
+        title: Text('Sizning Ip manzilingizga ruhsat yo\'q'),
+        description: Text('Kiberxavsizlikka murojaat qiling'),
         onDismiss: () {},
         onNotificationPressed: () {},
         shadow: BoxShadow(

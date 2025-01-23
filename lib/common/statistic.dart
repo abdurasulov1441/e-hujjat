@@ -18,7 +18,11 @@ class AdminStatistic extends StatelessWidget {
           borderRadius: BorderRadius.circular(10)),
       child: Row(
         children: [
-          StatisticAllWidget(),
+          StatisticsWidgetNew(
+            svgname: 'assets/images/nazorat_varaqasi.svg',
+            text: 'Nazorat varaqasi',
+            number: '127',
+          ),
           StatisticsWidgetNew(
             svgname: 'assets/images/new.svg',
             text: 'Yangi',
@@ -40,47 +44,6 @@ class AdminStatistic extends StatelessWidget {
   }
 }
 
-class StatisticAllWidget extends StatelessWidget {
-  const StatisticAllWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 5, top: 10),
-      width: 180,
-      height: 80,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              SvgPicture.asset('assets/images/nazorat_varaqasi.svg'),
-              SizedBox(
-                width: 5,
-              ),
-              Text(
-                'Nazorat varaqasi',
-                style: AppStyle.fontStyle,
-              )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8, left: 30),
-            child: Text(
-              '100 ta',
-              style: AppStyle.fontStyle,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
 class StatisticsWidgetNew extends StatelessWidget {
   const StatisticsWidgetNew(
       {super.key,
@@ -96,7 +59,7 @@ class StatisticsWidgetNew extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: 10),
-      width: 274,
+      width: 247,
       height: 80,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
