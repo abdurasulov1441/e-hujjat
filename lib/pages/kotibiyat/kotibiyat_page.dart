@@ -3,7 +3,6 @@ import 'package:e_hujjat/pages/kotibiyat/secondPage.dart';
 import 'package:flutter/material.dart';
 import 'package:e_hujjat/common/app_bar.dart';
 import 'package:e_hujjat/common/menu.dart';
-
 import 'package:provider/provider.dart';
 
 class KotibiyatPage extends StatefulWidget {
@@ -25,26 +24,54 @@ class _KotibiyatPageState extends State<KotibiyatPage> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       backgroundColor: themeProvider.getColor('background'),
-      body: Container(
-        width: double.infinity,
-        margin: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-             MyCustomAppBar(),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: Column(
+        children: [
+          // AppBar с динамической высотой
+          Container(
+            height:
+                MediaQuery.of(context).size.height * 0.1, // 10% высоты экрана
+            child: MyCustomAppBar(),
+          ),
+          Expanded(
+            child: Row(
               children: [
-                UniversalMenu(onMenuSelected: updatePage),
+                // Меню слева
                 Expanded(
+                  flex: 1,
+                  child: UniversalMenu(onMenuSelected: updatePage),
+                ),
+                // Основная страница
+                Expanded(
+                  flex: 4,
                   child: currentPage,
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
+
+// Container(
+//         width: double.infinity,
+//         margin: const EdgeInsets.all(10),
+//         child: Column(
+//           children: [
+//              MyCustomAppBar(),
+//             Row(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 UniversalMenu(onMenuSelected: updatePage),
+//                 Expanded(
+//                   child: currentPage,
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
