@@ -32,7 +32,7 @@ class _KotibiyatPageState extends State<KotibiyatPage> {
         margin: const EdgeInsets.all(10),
         child: Column(
           children: [
-            const MyCustomAppBar(),
+             MyCustomAppBar(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
