@@ -1,16 +1,22 @@
+import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:e_hujjat/common/utils/constants.dart';
 import 'package:e_hujjat/db/cache.dart';
 import 'package:flutter/material.dart';
-import 'package:e_hujjat/common/style/app_colors.dart';
-import 'package:e_hujjat/common/style/app_style.dart';
-
 import 'package:one_clock/one_clock.dart';
+import 'package:provider/provider.dart';
 
-class MyCustomAppBar extends StatelessWidget {
+class MyCustomAppBar extends StatefulWidget {
   const MyCustomAppBar({super.key});
 
   @override
+  State<MyCustomAppBar> createState() => _MyCustomAppBarState();
+}
+
+class _MyCustomAppBarState extends State<MyCustomAppBar> {
+  @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     final name = cache.getString('first_name');
     final photo = cache.getString('photo');
     final lastName = cache.getString('last_name');
@@ -20,7 +26,7 @@ class MyCustomAppBar extends StatelessWidget {
       height: 60,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: AppColors.foregroundColor),
+          color: themeProvider.getColor('foreground')),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -39,8 +45,8 @@ class MyCustomAppBar extends StatelessWidget {
               ),
               Text(
                 'Nazorat varaqalar monitoringi',
-                style: AppStyle.fontStyle
-                    .copyWith(fontSize: 26, color: AppColors.iconColor),
+                style: themeProvider.getTextStyle().copyWith(
+                    fontSize: 26, color: themeProvider.getColor('icon')),
               ),
             ],
           ),
@@ -48,19 +54,26 @@ class MyCustomAppBar extends StatelessWidget {
             children: [
               Text(
                 'Hozirgi vaqt:',
-                style: AppStyle.fontStyle.copyWith(fontWeight: FontWeight.bold),
+                style: themeProvider
+                    .getTextStyle()
+                    .copyWith(fontWeight: FontWeight.bold),
               ),
               DigitalClock(
                   format: "Hms",
                   showSeconds: true,
                   isLive: true,
-                  digitalClockTextColor: Colors.black,
+                  digitalClockTextColor: themeProvider.getColor('text'),
                   decoration: const BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.all(Radius.circular(15))),
                   datetime: DateTime.now()),
             ],
           ),
+          ElevatedButton(
+              onPressed: () {
+                themeProvider.toggleTheme();
+              },
+              child: Text('theme')),
           Row(
             children: [
               CircleAvatar(
@@ -83,11 +96,11 @@ class MyCustomAppBar extends StatelessWidget {
                 children: [
                   Text(
                     name!,
-                    style: AppStyle.fontStyle.copyWith(fontSize: 10),
+                    style: themeProvider.getTextStyle().copyWith(fontSize: 10),
                   ),
                   Text(
                     lastName!,
-                    style: AppStyle.fontStyle.copyWith(fontSize: 10),
+                    style: themeProvider.getTextStyle().copyWith(fontSize: 10),
                   ),
                 ],
               ),

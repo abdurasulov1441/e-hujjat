@@ -1,18 +1,32 @@
 import 'package:e_hujjat/common/app_bar.dart';
-import 'package:e_hujjat/common/calendar.dart';
-import 'package:e_hujjat/common/diagram.dart';
 import 'package:e_hujjat/common/menu.dart';
-import 'package:e_hujjat/common/statistic.dart';
-import 'package:e_hujjat/common/style/app_colors.dart';
-import 'package:flutter/material.dart';
+import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 
-class InspektorlarPage extends StatelessWidget {
+import 'package:e_hujjat/pages/kotibiyat/secondPage.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class InspektorlarPage extends StatefulWidget {
   const InspektorlarPage({super.key});
 
   @override
+  State<InspektorlarPage> createState() => _InspektorlarPageState();
+}
+
+class _InspektorlarPageState extends State<InspektorlarPage> {
+  Widget currentPage = Secondpage();
+
+  void updatePage(Widget page) {
+    setState(() {
+      currentPage = page;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: themeProvider.getColor('background'),
         body: Container(
           width: double.infinity,
           margin: EdgeInsets.all(10),
@@ -26,19 +40,11 @@ class InspektorlarPage extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          UniversalMenu(),
+                          UniversalMenu(onMenuSelected: updatePage),
                         ],
                       ),
-                      Column(
-                        children: [
-                          AdminStatistic(),
-                          Row(
-                            children: [
-                              Diagram(),
-                              Calendar(),
-                            ],
-                          ),
-                        ],
+                      Expanded(
+                        child: currentPage,
                       ),
                     ],
                   ),

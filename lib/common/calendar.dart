@@ -1,19 +1,22 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:e_hujjat/common/style/app_colors.dart';
+
+import 'package:provider/provider.dart';
 
 class Calendar extends StatelessWidget {
   const Calendar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
       width: 515,
       height: 250,
       padding: EdgeInsets.all(15),
       margin: EdgeInsets.only(top: 10, left: 15),
       decoration: BoxDecoration(
-          color: AppColors.foregroundColor,
+          color: themeProvider.getColor('foreground'),
           borderRadius: BorderRadius.circular(10)),
       child: AdminDashboardCalendar(),
     );
@@ -30,10 +33,11 @@ class AdminDashboardCalendar extends StatefulWidget {
 class _AdminDashboardCalendarState extends State<AdminDashboardCalendar> {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
         // margin: EdgeInsets.only(top: 10, left: 10),
         decoration: BoxDecoration(
-            color: AppColors.foregroundColor,
+            color: themeProvider.getColor('foreground'),
             borderRadius: BorderRadius.circular(10)),
         width: 100,
         height: 100,

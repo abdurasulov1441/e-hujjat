@@ -1,22 +1,23 @@
+import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:e_hujjat/common/style/app_colors.dart';
-import 'package:e_hujjat/common/style/app_style.dart';
 
 import 'package:progress_bar_chart/progress_bar_chart.dart';
+import 'package:provider/provider.dart';
 
 class Diagram extends StatelessWidget {
   const Diagram({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
         width: 515,
         height: 250,
         padding: EdgeInsets.all(15),
         margin: EdgeInsets.only(top: 10, left: 15),
         decoration: BoxDecoration(
-            color: AppColors.foregroundColor,
+            color: themeProvider.getColor('foreground'),
             borderRadius: BorderRadius.circular(10)),
         child: Column(
           children: [
@@ -58,6 +59,7 @@ class Admindiagramelements extends StatelessWidget {
   final double finishedcard;
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     final List<StatisticsItem> stats = [
       StatisticsItem(Color(0xFF007AFF), newcard, title: 'Yangi'),
       StatisticsItem(Color(0xFF34C759), aceptedcard, title: 'Qabul qilingan'),
@@ -73,7 +75,7 @@ class Admindiagramelements extends StatelessWidget {
           ),
           Text(
             name,
-            style: AppStyle.fontStyle.copyWith(fontSize: 12),
+            style: themeProvider.getTextStyle().copyWith(fontSize: 12),
           ),
           SizedBox(
             width: 10,
@@ -130,6 +132,7 @@ class AdminDiagramExplanationsContainer extends StatelessWidget {
   final String colorsquare;
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Row(
       children: [
         SvgPicture.asset('assets/images/$colorsquare.svg'),
@@ -138,7 +141,7 @@ class AdminDiagramExplanationsContainer extends StatelessWidget {
         ),
         Text(
           name,
-          style: AppStyle.fontStyle,
+          style: themeProvider.getTextStyle(),
         ),
         SizedBox(
           width: 15,

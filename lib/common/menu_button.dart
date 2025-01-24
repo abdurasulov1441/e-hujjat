@@ -1,7 +1,8 @@
+import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:e_hujjat/common/style/app_colors.dart';
-import 'package:e_hujjat/common/style/app_style.dart';
+
+import 'package:provider/provider.dart';
 
 class AdminMenuButton extends StatelessWidget {
   const AdminMenuButton({
@@ -9,20 +10,23 @@ class AdminMenuButton extends StatelessWidget {
     required this.name,
     required this.svgname,
     required this.onPressed,
+    required this.isSelected,
   });
 
   final String name;
   final String svgname;
   final VoidCallback onPressed;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Padding(
       padding: EdgeInsets.only(left: 10, right: 10),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.only(left: 5),
-          backgroundColor: AppColors.foregroundColor,
+          backgroundColor: themeProvider.getColor('foreground'),
           shape: RoundedRectangleBorder(
             side: BorderSide(
               color: const Color.fromARGB(255, 228, 228, 228),
@@ -42,13 +46,16 @@ class AdminMenuButton extends StatelessWidget {
               svgname,
               width: 22,
               height: 22,
+              color: isSelected
+                  ? themeProvider.getColor('icon')
+                  : themeProvider.getColor('divider'),
             ),
             SizedBox(
               width: 10,
             ),
             Text(
               name,
-              style: AppStyle.fontStyle,
+              style: themeProvider.getTextStyle(),
             ),
           ],
         ),

@@ -1,20 +1,24 @@
+import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:e_hujjat/common/style/app_colors.dart';
-import 'package:e_hujjat/common/style/app_style.dart';
+
+import 'package:provider/provider.dart';
 
 class AdminStatistic extends StatelessWidget {
   const AdminStatistic({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
       width: 1046,
       height: 100,
-      padding: EdgeInsets.all(5),
-      margin: EdgeInsets.only(top: 10, left: 15),
+      padding: EdgeInsets.all(0),
+      margin: EdgeInsets.only(
+        top: 10,
+      ),
       decoration: BoxDecoration(
-          color: AppColors.foregroundColor,
+          color: themeProvider.getColor('background'),
           borderRadius: BorderRadius.circular(10)),
       child: Row(
         children: [
@@ -57,13 +61,14 @@ class StatisticsWidgetNew extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
-      margin: EdgeInsets.only(left: 10),
+      margin: EdgeInsets.only(left: 0),
       width: 247,
       height: 80,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: AppColors.backgroundColor),
+          color: themeProvider.getColor('foreground')),
       child: Row(
         children: [
           SizedBox(
@@ -83,11 +88,11 @@ class StatisticsWidgetNew extends StatelessWidget {
             children: [
               Text(
                 text,
-                style: AppStyle.fontStyle,
+                style: themeProvider.getTextStyle(),
               ),
               Text(
                 '$number ta',
-                style: AppStyle.fontStyle.copyWith(fontSize: 20),
+                style: themeProvider.getTextStyle().copyWith(fontSize: 20),
               )
             ],
           )
