@@ -1,10 +1,5 @@
 import 'package:e_hujjat/db/cache.dart';
 import 'package:e_hujjat/pages/auth/login_screen.dart';
-import 'package:e_hujjat/pages/bolim_boshliqlari/bolim_boshliqlari_page.dart';
-import 'package:e_hujjat/pages/boshqarma_boshliqlari/boshqarma_boshliqlari_page.dart';
-import 'package:e_hujjat/pages/inspektorlar/inspektorlar_page.dart';
-import 'package:e_hujjat/pages/orinbosarlar/orinbosarlar_page.dart';
-import 'package:e_hujjat/pages/supper_admin/supper_admin_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:e_hujjat/pages/home_page.dart';
 import 'package:e_hujjat/pages/kotibiyat/kotibiyat_page.dart';
@@ -56,33 +51,5 @@ final router = GoRouter(
         return const KotibiyatPage();
       },
     ),
-    GoRoute(
-      path: Routes.orinbosarlarPage,
-      builder: (context, state) {
-        return const OrinbosarlarPage();
-      },
-    ),
-    GoRoute(
-        path: Routes.boshqarmaBoshliqlariPage,
-        builder: (context, state) {
-          return const BoshqarmaBoshliqlariPage();
-        }),
-    GoRoute(
-      path: Routes.bolimBoshliqlariPage,
-      builder: (context, state) {
-        return const BolimBoshliqlariPage();
-      },
-    ),
-    GoRoute(
-      path: Routes.inspektorlarPage,
-      builder: (context, state) {
-        return const InspektorlarPage();
-      },
-    ),
-    GoRoute(
-        path: Routes.supperAdminPage,
-        builder: (context, state) {
-          return const SupperAdminPage();
-        }),
   ],
 );

@@ -11,8 +11,6 @@ class Calendar extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
-      width: 515,
-      height: 250,
       padding: EdgeInsets.all(15),
       margin: EdgeInsets.only(top: 10, left: 15),
       decoration: BoxDecoration(
@@ -34,14 +32,17 @@ class _AdminDashboardCalendarState extends State<AdminDashboardCalendar> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    return Container(
-        // margin: EdgeInsets.only(top: 10, left: 10),
-        decoration: BoxDecoration(
-            color: themeProvider.getColor('foreground'),
-            borderRadius: BorderRadius.circular(10)),
-        width: 100,
-        height: 100,
-        child: SimpleCalendarPage());
+    return Expanded(
+      flex: 1,
+      child: Container(
+          padding: EdgeInsets.all(15),
+          height: 300,
+          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          decoration: BoxDecoration(
+              color: themeProvider.getColor('foreground'),
+              borderRadius: BorderRadius.circular(10)),
+          child: SimpleCalendarPage()),
+    );
   }
 }
 

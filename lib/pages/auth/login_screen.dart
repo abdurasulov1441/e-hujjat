@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
           log: true);
       if (response['accessToken'] != null && response['refreshToken'] != null) {
         cache.setString('access_token', response['accessToken']);
-        cache.setString('refresh_token', response['refreshToken']);
+        cache.setString('refreshToken', response['refreshToken']);
         cache.setInt('user_role', response['user']['role_id']);
         cache.setString('photo', response['user']['photo']);
         cache.setString('first_name', response['user']['first_name']);

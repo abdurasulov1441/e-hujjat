@@ -27,13 +27,12 @@ void main() async {
       ),
     ),
   );
-  // doWhenWindowReady(() {
-  //   const initialSize = Size(1366, 768);
-  //   appWindow.minSize = initialSize;
-  //   appWindow.maxSize = initialSize;
-  //   appWindow.size = initialSize;
-  //   appWindow.alignment = Alignment.center;
-  //   appWindow.title = "Nazorat varaqasi";
-  //   appWindow.show();
-  // });
+  doWhenWindowReady(() {
+    const initialSize = Size(1366, 768);
+    appWindow.minSize = initialSize;
+    appWindow.size = initialSize;
+    appWindow.alignment = Alignment.center;
+    appWindow.title = "Nazorat varaqasi";
+    appWindow.show();
+  });
 }

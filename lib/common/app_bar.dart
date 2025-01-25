@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:one_clock/one_clock.dart';
 import 'package:provider/provider.dart';
 
-class MyCustomAppBar extends StatefulWidget {
-  const MyCustomAppBar({super.key});
+class MyCustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const MyCustomAppBar({Key? key}) : super(key: key);
+
+  @override
+  Size get preferredSize => const Size.fromHeight(60);
 
   @override
   State<MyCustomAppBar> createState() => _MyCustomAppBarState();
@@ -32,17 +35,13 @@ class _MyCustomAppBarState extends State<MyCustomAppBar> {
         children: [
           Row(
             children: [
-              SizedBox(
-                width: 20,
-              ),
+              const SizedBox(width: 20),
               Image.asset(
                 'assets/images/logo.png',
                 width: 34,
                 height: 34,
               ),
-              SizedBox(
-                width: 10,
-              ),
+              const SizedBox(width: 10),
               Text(
                 'Nazorat varaqalar monitoringi',
                 style: themeProvider.getTextStyle().copyWith(
@@ -73,7 +72,7 @@ class _MyCustomAppBarState extends State<MyCustomAppBar> {
               onPressed: () {
                 themeProvider.toggleTheme();
               },
-              child: Text('theme')),
+              child: const Text('theme')),
           Row(
             children: [
               CircleAvatar(
@@ -88,25 +87,21 @@ class _MyCustomAppBarState extends State<MyCustomAppBar> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: 10,
-              ),
+              const SizedBox(width: 10),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    name!,
+                    name ?? '',
                     style: themeProvider.getTextStyle().copyWith(fontSize: 10),
                   ),
                   Text(
-                    lastName!,
+                    lastName ?? '',
                     style: themeProvider.getTextStyle().copyWith(fontSize: 10),
                   ),
                 ],
               ),
-              SizedBox(
-                width: 20,
-              ),
+              const SizedBox(width: 20),
             ],
           )
         ],

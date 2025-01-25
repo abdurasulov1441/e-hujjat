@@ -11,36 +11,38 @@ class Diagram extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    return Container(
-        width: 515,
-        height: 250,
-        padding: EdgeInsets.all(15),
-        margin: EdgeInsets.only(top: 10, left: 15),
-        decoration: BoxDecoration(
-            color: themeProvider.getColor('foreground'),
-            borderRadius: BorderRadius.circular(10)),
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              height: 190,
-              child: ListView.builder(
-                itemCount: 8,
-                itemBuilder: (BuildContext context, int index) {
-                  return Admindiagramelements(
-                    name: 'Texnika',
-                    totalcards: 1000,
-                    newcard: 600,
-                    aceptedcard: 300,
-                    finishedcard: 100,
-                  );
-                },
+    return Expanded(
+      flex: 1,
+      child: Container(
+          height: 300,
+          padding: EdgeInsets.all(15),
+          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          decoration: BoxDecoration(
+              color: themeProvider.getColor('foreground'),
+              borderRadius: BorderRadius.circular(10)),
+          child: Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                height: 190,
+                child: ListView.builder(
+                  itemCount: 8,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Admindiagramelements(
+                      name: 'Texnika',
+                      totalcards: 1000,
+                      newcard: 600,
+                      aceptedcard: 300,
+                      finishedcard: 100,
+                    );
+                  },
+                ),
               ),
-            ),
-            Spacer(),
-            AdminDiagramExplanations()
-          ],
-        ));
+              Spacer(),
+              AdminDiagramExplanations()
+            ],
+          )),
+    );
   }
 }
 

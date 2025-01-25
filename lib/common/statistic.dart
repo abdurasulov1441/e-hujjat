@@ -11,16 +11,12 @@ class AdminStatistic extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
-      width: 1046,
-      height: 100,
-      padding: EdgeInsets.all(0),
-      margin: EdgeInsets.only(
-        top: 10,
-      ),
+      height: 130,
       decoration: BoxDecoration(
           color: themeProvider.getColor('background'),
           borderRadius: BorderRadius.circular(10)),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           StatisticsWidgetNew(
             svgname: 'assets/images/nazorat_varaqasi.svg',
@@ -62,41 +58,41 @@ class StatisticsWidgetNew extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    return Container(
-      margin: EdgeInsets.only(left: 0),
-      width: 247,
-      height: 80,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: themeProvider.getColor('foreground')),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 10,
-          ),
-          SvgPicture.asset(
-            svgname,
-            width: 40,
-            height: 40,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                text,
-                style: themeProvider.getTextStyle(),
-              ),
-              Text(
-                '$number ta',
-                style: themeProvider.getTextStyle().copyWith(fontSize: 20),
-              )
-            ],
-          )
-        ],
+    return Flexible(
+      child: Container(
+        height: 130,
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: themeProvider.getColor('foreground')),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 10,
+            ),
+            SvgPicture.asset(
+              svgname,
+              width: 40,
+              height: 40,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  text,
+                ),
+                Text('$number ta',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ))
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

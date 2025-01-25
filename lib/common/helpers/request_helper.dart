@@ -311,7 +311,7 @@ final class RequestHelper {
   }
 
   Future<void> refreshAccessToken() async {
-    final refreshToken = cache.getString('refresh_token');
+    final refreshToken = cache.getString('refreshToken');
 
     if (refreshToken == null) {
       router.go(Routes.home);
@@ -342,7 +342,10 @@ final class RequestHelper {
 
         final String accessToken = parsed['accessToken'];
         await cache.setString('access_token', accessToken);
+        await cache.setString('refreshToken', parsed['refreshToken']);
+        print(accessToken);
       } else if (response.statusCode == 401) {
+       
         router.go(Routes.home);
         throw UnauthorizedException();
       } else {

@@ -4,7 +4,8 @@ import 'package:e_hujjat/common/diagram.dart';
 import 'package:e_hujjat/common/helpers/request_helper.dart';
 import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:e_hujjat/db/cache.dart';
-import 'package:e_hujjat/pages/kotibiyat/secondPage.dart';
+import 'package:e_hujjat/pages/kotibiyat/kotibiyat_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:e_hujjat/common/menu_button.dart';
 
@@ -54,7 +55,7 @@ class _UniversalMenuState extends State<UniversalMenu> {
   Widget _getPageByRoute(String route) {
     switch (route) {
       case 'dashboardPage':
-        return const Secondpage();
+        return const MainPageElements();
       case 'nazoratVaraqasiPage':
         return const Diagram();
       case 'bolimlarPage':
@@ -69,9 +70,6 @@ class _UniversalMenuState extends State<UniversalMenu> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
       padding: const EdgeInsets.all(5),
-      margin: const EdgeInsets.only(top: 10),
-      width: 249,
-      height: 630,
       decoration: BoxDecoration(
         color: themeProvider.getColor('foreground'),
         borderRadius: BorderRadius.circular(10),
@@ -117,7 +115,7 @@ class _UniversalMenuState extends State<UniversalMenu> {
 
   Future<void> _signOut() async {
     try {
-      await requestHelper.postWithAuth('/api/auth/logout', {}, log: true);
+      // await requestHelper.postWithAuth('/api/auth/logout', {}, log: true);
       cache.clear();
       router.go(Routes.loginPage);
     } catch (error) {
