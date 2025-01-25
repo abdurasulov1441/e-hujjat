@@ -1,18 +1,19 @@
 import 'package:e_hujjat/db/cache.dart';
 import 'package:e_hujjat/pages/auth/login_screen.dart';
+import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/nazorat_varaqasi_qoshish.dart';
+import 'package:e_hujjat/pages/nazorat_varaqalari_page/nazorat_varaqalari.dart';
 import 'package:go_router/go_router.dart';
 import 'package:e_hujjat/pages/home_page.dart';
-import 'package:e_hujjat/pages/kotibiyat/kotibiyat_page.dart';
+import 'package:e_hujjat/pages/main_Page/main_page.dart';
 
 abstract final class Routes {
   static const home = '/home';
   static const loginPage = '/loginPage';
-  static const kotibiyatPage = '/kotibiyatPage';
-  static const orinbosarlarPage = '/orinbosarlarPage';
-  static const boshqarmaBoshliqlariPage = '/boshqarmaBoshliqlariPage';
-  static const bolimBoshliqlariPage = '/bolimBoshliqlariPage';
-  static const inspektorlarPage = '/inspektorlarPage';
-  static const supperAdminPage = '/supperAdminPage';
+  static const mainPage = '/mainPage';
+
+  static const nazoratVaraqalari = '/nazoratVaraqalari';
+
+  static const nazoratVaraqasiQoshish = '/nazoratVaraqasiQoshish';
 }
 
 String _initialLocation() {
@@ -46,9 +47,21 @@ final router = GoRouter(
       },
     ),
     GoRoute(
-      path: Routes.kotibiyatPage,
+      path: Routes.mainPage,
       builder: (context, state) {
-        return const KotibiyatPage();
+        return const MainPage();
+      },
+    ),
+    GoRoute(
+      path: Routes.nazoratVaraqalari,
+      builder: (context, state) {
+        return const NazoratVaraqalari();
+      },
+    ),
+    GoRoute(
+      path: Routes.nazoratVaraqasiQoshish,
+      builder: (context, state) {
+        return const NazoratVaraqasiQoshish();
       },
     ),
   ],

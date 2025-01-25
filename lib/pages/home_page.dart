@@ -1,14 +1,14 @@
 import 'package:e_hujjat/db/cache.dart';
 import 'package:e_hujjat/pages/auth/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:e_hujjat/pages/kotibiyat/kotibiyat_page.dart';
+import 'package:e_hujjat/pages/main_Page/main_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return KotibiyatPage();
+    return MainPage();
     // final user_role = cache.getInt('user_role');
 
     // switch (user_role) {

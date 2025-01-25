@@ -8,14 +8,14 @@ import 'package:e_hujjat/common/app_bar.dart';
 import 'package:e_hujjat/common/menu.dart';
 import 'package:provider/provider.dart';
 
-class KotibiyatPage extends StatefulWidget {
-  const KotibiyatPage({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
 
   @override
-  State<KotibiyatPage> createState() => _KotibiyatPageState();
+  State<MainPage> createState() => _KotibiyatPageState();
 }
 
-class _KotibiyatPageState extends State<KotibiyatPage> {
+class _KotibiyatPageState extends State<MainPage> {
   Widget currentPage = MainPageElements();
 
   void updatePage(Widget page) {

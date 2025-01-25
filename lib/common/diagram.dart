@@ -24,9 +24,9 @@ class Diagram extends StatelessWidget {
             children: [
               SizedBox(
                 width: double.infinity,
-                height: 190,
+                height: 240,
                 child: ListView.builder(
-                  itemCount: 8,
+                  itemCount: 32,
                   itemBuilder: (BuildContext context, int index) {
                     return Admindiagramelements(
                       name: 'Texnika',
@@ -85,7 +85,7 @@ class Admindiagramelements extends StatelessWidget {
           Expanded(
             child: ProgressBarChart(
               values: stats,
-              height: 15,
+              height: 20,
               borderRadius: 10,
               colorBlend: false,
               totalPercentage: totalcards,

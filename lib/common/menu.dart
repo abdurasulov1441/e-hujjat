@@ -4,7 +4,7 @@ import 'package:e_hujjat/common/diagram.dart';
 import 'package:e_hujjat/common/helpers/request_helper.dart';
 import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:e_hujjat/db/cache.dart';
-import 'package:e_hujjat/pages/kotibiyat/kotibiyat_page.dart';
+import 'package:e_hujjat/pages/main_Page/main_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:e_hujjat/common/menu_button.dart';
@@ -98,7 +98,6 @@ class _UniversalMenuState extends State<UniversalMenu> {
               },
             ),
           ),
-          const Spacer(),
           AdminMenuButton(
             name: 'Chiqish',
             svgname: 'assets/images/exit.svg',

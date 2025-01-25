@@ -52,29 +52,31 @@ class _LoginScreenState extends State<LoginScreen> {
         cache.setString('first_name', response['user']['first_name']);
         cache.setString('surname', response['user']['surname']);
         cache.setString('last_name', response['user']['last_name']);
-        switch (response['user']['role_id']) {
-          case 1:
-            router.go(Routes.supperAdminPage);
 
-            break;
-          case 2:
-            router.go(Routes.kotibiyatPage);
-            break;
-          case 3:
-            router.go(Routes.orinbosarlarPage);
-            break;
-          case 4:
-            router.go(Routes.boshqarmaBoshliqlariPage);
-            break;
-          case 5:
-            router.go(Routes.bolimBoshliqlariPage);
-            break;
-          case 6:
-            router.go(Routes.inspektorlarPage);
-            break;
-          default:
-            print('defolt');
-        }
+        router.go(Routes.mainPage);
+        // switch (response['user']['role_id']) {
+        //   case 1:
+        //     router.go(Routes.supperAdminPage);
+
+        //     break;
+        //   case 2:
+        //     router.go(Routes.kotibiyatPage);
+        //     break;
+        //   case 3:
+        //     router.go(Routes.orinbosarlarPage);
+        //     break;
+        //   case 4:
+        //     router.go(Routes.boshqarmaBoshliqlariPage);
+        //     break;
+        //   case 5:
+        //     router.go(Routes.bolimBoshliqlariPage);
+        //     break;
+        //   case 6:
+        //     router.go(Routes.inspektorlarPage);
+        //     break;
+        //   default:
+        //     print('defolt');
+        // }
       } else {
         String status = response['message'];
         ElegantNotification.success(
