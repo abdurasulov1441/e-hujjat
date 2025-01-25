@@ -1,5 +1,4 @@
 import 'package:e_hujjat/app/router.dart';
-import 'package:e_hujjat/common/app_bar.dart';
 import 'package:e_hujjat/common/calendar.dart';
 import 'package:e_hujjat/common/helpers/request_helper.dart';
 import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
@@ -10,38 +9,51 @@ import 'package:e_hujjat/pages/nazorat_varaqalari_page/nazorat_varaqalari.dart';
 
 import 'package:flutter/material.dart';
 import 'package:e_hujjat/common/menu_button.dart';
+
 import 'package:provider/provider.dart';
 
-class PageProvider with ChangeNotifier {
-  List<Map<String, dynamic>> menuItems = [];
-  Widget _currentPage = const MainPageElements();
+class UniversalMenu extends StatefulWidget {
+  final Function(Widget) onMenuSelected;
 
-  Widget get currentPage => _currentPage;
+  const UniversalMenu({super.key, required this.onMenuSelected});
 
-  Future<void> fetchMenu() async {
+  @override
+  State<UniversalMenu> createState() => _UniversalMenuState();
+}
+
+class _UniversalMenuState extends State<UniversalMenu> {
+  List<String> menu = [];
+  List<String> route = [];
+  List<String> icon = [];
+  List<Widget> pages = [];
+  int selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getMenu();
+  }
+
+  Future<void> getMenu() async {
     try {
       final response = await requestHelper
           .getWithAuth('/api/references/get-menus', log: true);
-      menuItems = response
-          .map<Map<String, dynamic>>((item) => {
-                'menu': item['menu'],
-                'route': item['route'],
-                'icon': item['icon'],
-                'page': _getPageByRoute(item['route']),
-              })
-          .toList();
-      notifyListeners();
+
+      setState(() {
+        for (var item in response) {
+          menu.add(item['menu']);
+          route.add(item['route']);
+          icon.add(item['icon']);
+          pages.add(getPageByRoute(item['route']));
+        }
+        print(route);
+      });
     } catch (error) {
       print(error);
     }
   }
 
-  void setCurrentPage(Widget page) {
-    _currentPage = page;
-    notifyListeners();
-  }
-
-  Widget _getPageByRoute(String route) {
+  Widget getPageByRoute(String route) {
     switch (route) {
       case 'dashboardPage':
         return const MainPageElements();
@@ -55,16 +67,10 @@ class PageProvider with ChangeNotifier {
         return const Placeholder();
     }
   }
-}
-
-class UniversalMenu extends StatelessWidget {
-  const UniversalMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final pageProvider = Provider.of<PageProvider>(context);
-
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
@@ -74,19 +80,21 @@ class UniversalMenu extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 10),
-          Expanded(
+          SizedBox(
+            height: 420,
             child: ListView.separated(
               separatorBuilder: (context, index) => const SizedBox(height: 10),
-              itemCount: pageProvider.menuItems.length,
+              itemCount: menu.length,
               itemBuilder: (context, index) {
-                final menuItem = pageProvider.menuItems[index];
-                final isSelected = pageProvider.currentPage == menuItem['page'];
-
+                final isSelected = index == selectedIndex;
                 return AdminMenuButton(
-                  name: menuItem['menu'],
-                  svgname: menuItem['icon'],
+                  name: menu[index],
+                  svgname: icon[index],
                   onPressed: () {
-                    pageProvider.setCurrentPage(menuItem['page']);
+                    setState(() {
+                      selectedIndex = index;
+                    });
+                    widget.onMenuSelected(pages[index]);
                   },
                   isSelected: isSelected,
                 );
@@ -109,40 +117,11 @@ class UniversalMenu extends StatelessWidget {
 
   Future<void> _signOut() async {
     try {
+      // await requestHelper.postWithAuth('/api/auth/logout', {}, log: true);
       cache.clear();
       router.go(Routes.loginPage);
     } catch (error) {
       print(error);
     }
-  }
-}
-
-class MainPage extends StatelessWidget {
-  const MainPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final pageProvider = Provider.of<PageProvider>(context);
-
-    return Scaffold(
-      appBar: MyCustomAppBar(),
-      backgroundColor: themeProvider.getColor('background'),
-      body: Row(
-        children: [
-          Flexible(
-            flex: 1,
-            child: Container(
-              margin: const EdgeInsets.all(10),
-              child: const UniversalMenu(),
-            ),
-          ),
-          Flexible(
-            flex: 4,
-            child: pageProvider.currentPage,
-          ),
-        ],
-      ),
-    );
   }
 }

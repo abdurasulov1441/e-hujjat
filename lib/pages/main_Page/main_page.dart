@@ -40,14 +40,18 @@ class _KotibiyatPageState extends State<MainPage> {
               flex: 1,
               child: Container(
                 margin: const EdgeInsets.all(10),
-                child: UniversalMenu(onMenuSelected: updatePage),
+                child: UniversalMenu(
+                  onMenuSelected: (page) {
+                    themeProvider.updatePage(page);
+                  },
+                ),
               ),
             ),
             Flexible(
               flex: 4,
               child: Consumer<ThemeProvider>(
-                builder: (context, pageProvider, child) {
-                  return pageProvider.currentPage;
+                builder: (context, themeProvider, child) {
+                  return themeProvider.currentPage;
                 },
               ),
             ),

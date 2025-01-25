@@ -1,6 +1,6 @@
-import 'package:e_hujjat/app/router.dart';
+import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class NazoratVaraqalari extends StatelessWidget {
   const NazoratVaraqalari({Key? key}) : super(key: key);
@@ -13,10 +13,13 @@ class NazoratVaraqalari extends StatelessWidget {
         child: Column(
           children: [
             ElevatedButton(
-                onPressed: () {
-                  GoRouter.of(context).go(Routes.nazoratVaraqasiQoshish);
-                },
-                child: Text('Nazorat varaqasi qo\'shish')),
+              onPressed: () {
+                Provider.of<ThemeProvider>(context, listen: false)
+                    .updatePageByRoute('nazoratVaraqasiQoshishPage');
+              },
+              child: Text('Nazorat varaqasi qo\'shish'),
+            ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
