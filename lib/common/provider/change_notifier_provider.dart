@@ -1,4 +1,5 @@
 import 'package:e_hujjat/db/cache/cache.dart';
+import 'package:e_hujjat/pages/main_Page/main_page.dart';
 import 'package:flutter/material.dart';
 
 class ThemeProvider with ChangeNotifier {
@@ -54,5 +55,14 @@ class ThemeProvider with ChangeNotifier {
       color: isDarkTheme ? Colors.white : Colors.black, // Пример
       fontFamily: 'Poppins',
     );
+  }
+
+  Widget _currentPage = const MainPageElements();
+
+  Widget get currentPage => _currentPage;
+
+  void updatePage(Widget page) {
+    _currentPage = page;
+    notifyListeners();
   }
 }

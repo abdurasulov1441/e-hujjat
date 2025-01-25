@@ -43,7 +43,14 @@ class _KotibiyatPageState extends State<MainPage> {
                 child: UniversalMenu(onMenuSelected: updatePage),
               ),
             ),
-            Flexible(flex: 4, child: currentPage),
+            Flexible(
+              flex: 4,
+              child: Consumer<ThemeProvider>(
+                builder: (context, pageProvider, child) {
+                  return pageProvider.currentPage;
+                },
+              ),
+            ),
           ],
         ),
       ),
