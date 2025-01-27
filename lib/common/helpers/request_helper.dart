@@ -314,7 +314,7 @@ final class RequestHelper {
     final refreshToken = cache.getString('refreshToken');
 
     if (refreshToken == null) {
-      router.go(Routes.home);
+      router.go(Routes.loginPage);
       throw UnauthorizedException();
     }
 
@@ -345,15 +345,14 @@ final class RequestHelper {
         await cache.setString('refreshToken', parsed['refreshToken']);
         print(accessToken);
       } else if (response.statusCode == 401) {
-       
-        router.go(Routes.home);
+        router.go(Routes.loginPage);
         throw UnauthorizedException();
       } else {
         throw Exception('Failed to refresh token: ${response.statusCode}');
       }
     } catch (error) {
       print('Error during token refresh: $error');
-      router.go(Routes.home);
+      router.go(Routes.loginPage);
       throw UnauthorizedException();
     }
   }
