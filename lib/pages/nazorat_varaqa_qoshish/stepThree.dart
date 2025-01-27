@@ -1,5 +1,9 @@
+import 'package:e_hujjat/common/helpers/request_helper.dart';
+import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/provider/card_provider.dart';
+import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/provider/step_two_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+
 
 class StepThree extends StatefulWidget {
   final VoidCallback onPrevious;
@@ -10,7 +14,34 @@ class StepThree extends StatefulWidget {
   State<StepThree> createState() => _StepThreeState();
 }
 
+final ControlCardProvider _controlCardProvider = ControlCardProvider();
+final StepTwoProvider _stepTwoProvider = StepTwoProvider();
+
 class _StepThreeState extends State<StepThree> {
+  Future<void> CreateDocument() async {
+    try {
+      final response = await requestHelper.postWithAuth(
+          '/api/controls/add-control-card',
+          {
+            "number": _stepTwoProvider.docNumber,
+            "responsible_person_id":
+                _controlCardProvider.selectedResponsiblePersons.join(","),
+            "responsible_id":
+                _controlCardProvider.selectedSubordinates.join(","),
+            "naming": _stepTwoProvider.documentName,
+            "doc_num": _stepTwoProvider.docNumber,
+            "doc_num_type_id": _stepTwoProvider.docTypeId1,
+            "assignment_time": _stepTwoProvider.assignmentTime,
+            "doc_reg_num": _stepTwoProvider.registrationNumber,
+            "doc_reg_type_id": _stepTwoProvider.docTypeId2,
+            "date_received": _stepTwoProvider.acceptanceDate,
+            "info": _quillController.document.toDelta().toJson(),
+            "deadline": _stepTwoProvider.taskDeadline,
+          },
+          log: true);
+    } catch (e) {}
+  }
+
   late quill.QuillController _quillController;
   final FocusNode _focusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
@@ -30,7 +61,7 @@ class _StepThreeState extends State<StepThree> {
 
   void _saveData() {
     final jsonData = _quillController.document.toDelta().toJson();
-   
+    CreateDocument();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Ma’lumot saqlandi: $jsonData')),
     );
@@ -98,7 +129,7 @@ class _StepThreeState extends State<StepThree> {
                 ),
               ),
               ElevatedButton(
-                onPressed: _saveData,
+                onPressed: CreateDocument,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   padding: const EdgeInsets.symmetric(

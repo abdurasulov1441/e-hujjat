@@ -1,5 +1,6 @@
 import 'package:e_hujjat/common/helpers/request_helper.dart';
 import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
+import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/provider/card_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -70,7 +71,7 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
         child: Container(
           padding: EdgeInsets.all(20),
           width: double.infinity,
-          margin: EdgeInsets.all(5),
+          margin: EdgeInsets.only(right: 10, bottom: 10, top: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(10),
@@ -204,6 +205,14 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
                 Center(
                   child: ElevatedButton(
                       onPressed: () {
+                        final selectedData = {
+                          'departments': selectedDepartments,
+                          'responsiblePersons':
+                              responsiblePersons.map((p) => p['id']).toList(),
+                          'subordinates': selectedSubordinates,
+                        };
+                        Provider.of<ControlCardProvider>(context, listen: false)
+                            .updateSelectedData(selectedData);
                         widget.onNext();
                       },
                       child: SizedBox(

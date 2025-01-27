@@ -1,4 +1,6 @@
 import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/provider/card_provider.dart';
+import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/provider/step_two_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:e_hujjat/app/app.dart';
@@ -22,6 +24,8 @@ void main() async {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => ThemeProvider(cache)),
+          ChangeNotifierProvider(create: (_) => ControlCardProvider()),
+          ChangeNotifierProvider(create: (_) => StepTwoProvider()),
         ],
         child: const App(),
       ),
