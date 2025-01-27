@@ -4,7 +4,8 @@ import 'package:e_hujjat/common/helpers/request_helper.dart';
 import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:e_hujjat/db/cache.dart';
 import 'package:e_hujjat/pages/main_Page/main_page.dart';
-import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/nazorat_varaqasi_qoshish.dart';
+import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/nazorat_varaqasi.dart';
+import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/stepOne.dart';
 import 'package:e_hujjat/pages/nazorat_varaqalari_page/nazorat_varaqalari.dart';
 
 import 'package:flutter/material.dart';

@@ -1,6 +1,7 @@
 import 'package:e_hujjat/db/cache.dart';
 import 'package:e_hujjat/pages/auth/login_screen.dart';
-import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/nazorat_varaqasi_qoshish.dart';
+import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/nazorat_varaqasi.dart';
+import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/stepOne.dart';
 import 'package:e_hujjat/pages/nazorat_varaqalari_page/nazorat_varaqalari.dart';
 import 'package:go_router/go_router.dart';
 import 'package:e_hujjat/pages/home_page.dart';

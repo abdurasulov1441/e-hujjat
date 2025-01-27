@@ -4,9 +4,11 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   bitsdojo_window_windows
+  file_selector_windows
   flutter_localization
   screen_retriever_windows
   system_tray
+  url_launcher_windows
   window_manager
   windows_notification
 )
