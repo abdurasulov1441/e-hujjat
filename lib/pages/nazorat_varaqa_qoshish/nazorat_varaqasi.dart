@@ -33,7 +33,7 @@ class _NazoratVaraqasiQoshishState extends State<NazoratVaraqasiQoshish> {
             child: Container(
               margin: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
               decoration: BoxDecoration(
-                color: themeProvider.getColor('foreground'),
+                color: Color(0xFFFFF5F5),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10)),

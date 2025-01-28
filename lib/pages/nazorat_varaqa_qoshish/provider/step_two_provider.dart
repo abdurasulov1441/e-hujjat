@@ -14,35 +14,32 @@ class StepTwoProvider with ChangeNotifier {
 
   void updateField(String fieldName, dynamic value) {
     switch (fieldName) {
-      case 'documentNumber':
+      case 'nazoratVaraqasiRaqami':
         documentNumber = value;
         break;
-      case 'documentName':
+      case 'hujjatNomi': /////////////////////////////////////
         documentName = value;
         break;
-      case 'docNumber':
+      case 'hujjatRaqami': //////////////////////////////////
         docNumber = value;
         break;
-      case 'docTypeId1':
+      case 'docTypeId1': ////////////////////////////
         docTypeId1 = value;
         break;
-      case 'docTypeId2':
+      case 'docTypeId2': /////////////////////////
         docTypeId2 = value;
         break;
-      case 'assignmentTime':
+      case 'qabulQilinganVaqti': /////////////////////////
         assignmentTime = value;
         break;
-      case 'registrationNumber':
+      case 'royxatgaOlishRaqami': ////////////////////
         registrationNumber = value;
         break;
-      case 'acceptanceDate':
+      case 'topshiriqVaqti': /////////////////
         acceptanceDate = value;
         break;
-      case 'taskDeadline':
+      case 'ijroMuddati': ///////////////////////////////
         taskDeadline = value;
-        break;
-      case 'executionDate':
-        executionDate = value;
         break;
     }
     print('Обновлено поле: $fieldName, значение: $value');

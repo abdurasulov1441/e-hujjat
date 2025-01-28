@@ -3,7 +3,7 @@ import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/provider/card_provider.dar
 import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/provider/step_two_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-
+import 'package:provider/provider.dart';
 
 class StepThree extends StatefulWidget {
   final VoidCallback onPrevious;
@@ -14,11 +14,13 @@ class StepThree extends StatefulWidget {
   State<StepThree> createState() => _StepThreeState();
 }
 
-final ControlCardProvider _controlCardProvider = ControlCardProvider();
-final StepTwoProvider _stepTwoProvider = StepTwoProvider();
-
 class _StepThreeState extends State<StepThree> {
   Future<void> CreateDocument() async {
+    final _controlCardProvider =
+        Provider.of<ControlCardProvider>(context, listen: false);
+    final _stepTwoProvider =
+        Provider.of<StepTwoProvider>(context, listen: false);
+
     try {
       final response = await requestHelper.postWithAuth(
           '/api/controls/add-control-card',
@@ -36,9 +38,11 @@ class _StepThreeState extends State<StepThree> {
             "doc_reg_type_id": _stepTwoProvider.docTypeId2,
             "date_received": _stepTwoProvider.acceptanceDate,
             "info": _quillController.document.toDelta().toJson(),
+            "info_text": _quillController.document.toPlainText().toString(),
             "deadline": _stepTwoProvider.taskDeadline,
           },
           log: true);
+      print(_quillController.document.toDelta().toJson());
     } catch (e) {}
   }
 
