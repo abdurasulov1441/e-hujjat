@@ -1,3 +1,4 @@
+import 'package:e_hujjat/app/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,11 +11,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDark = context.watch<ThemeProvider>().isDarkTheme;
     return MaterialApp.router(
       title: 'Nazorat Varaqasi',
       debugShowCheckedModeBanner: false,
-      theme: themeProvider.isDarkTheme ? ThemeData.dark() : ThemeData.light(),
+      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+      theme: lightTheme,
+      darkTheme: darkTheme,
       routerConfig: router,
       locale: context.locale,
       localizationsDelegates: context.localizationDelegates,

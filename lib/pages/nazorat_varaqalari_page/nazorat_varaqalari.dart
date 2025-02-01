@@ -1,7 +1,7 @@
 import 'package:e_hujjat/common/helpers/request_helper.dart';
-import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
+import 'package:e_hujjat/common/provider/page_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class NazoratVaraqalari extends StatefulWidget {
@@ -12,13 +12,49 @@ class NazoratVaraqalari extends StatefulWidget {
 }
 
 class _NazoratVaraqalariState extends State<NazoratVaraqalari> {
-  List<Map<String, dynamic>> controlCards = []; // Список карточек
-  bool isLoading = true; // Флаг загрузки
+  List<Map<String, dynamic>> controlCards = [];
+  List<Map<String, dynamic>> departments = [];
+  List<Map<String, dynamic>> subordinates = [];
+  int? selectedDepartmentId;
+  int? selectedSubordinateId;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getDepartments();
+    _fetchControlCard();
+  }
+
+  Future<void> getDepartments() async {
+    try {
+      final response = await requestHelper
+          .getWithAuth('/api/references/get-departments', log: true);
+      setState(() {
+        departments = List<Map<String, dynamic>>.from(response);
+      });
+    } catch (e) {
+      print("Error fetching departments: $e");
+    }
+  }
+
+  Future<void> getSubordinates(int departmentId) async {
+    try {
+      final response = await requestHelper.getWithAuth(
+          '/api/controls/get-responsible-execution/$departmentId',
+          log: true);
+      setState(() {
+        subordinates = List<Map<String, dynamic>>.from(response);
+      });
+    } catch (e) {
+      print("Error fetching subordinates: $e");
+    }
+  }
 
   Future<void> _fetchControlCard() async {
     try {
       final response = await requestHelper.getWithAuth(
-        '/api/controls/get-control/0/0/0',
+        '/api/controls/get-control/${selectedDepartmentId ?? 4}/0/${selectedSubordinateId ?? 6}',
         log: true,
       );
       setState(() {
@@ -34,52 +70,65 @@ class _NazoratVaraqalariState extends State<NazoratVaraqalari> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _fetchControlCard();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+   
 
     return Scaffold(
-      backgroundColor: themeProvider.getColor('background'),
-   
+      // backgroundColor: themeProvider.getColor('background'),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            // Search and Filter Bar
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.search),
-                      hintText: 'Qidiring',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
+                  child: DropdownButton<int>(
+                    value: selectedDepartmentId,
+                    hint: const Text('Bo\'limni tanlang'),
+                    items: departments.map((dept) {
+                      return DropdownMenuItem<int>(
+                        value: dept['id'],
+                        child: Text(dept['name']),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedDepartmentId = value;
+                        selectedSubordinateId = null;
+                        subordinates = [];
+                        print(selectedDepartmentId);
+                      });
+                      if (value != null) {
+                        getSubordinates(value);
+                        _fetchControlCard();
+                      }
+                    },
                   ),
                 ),
                 const SizedBox(width: 10),
-                DropdownButton<String>(
-                  items: const [
-                    DropdownMenuItem(
-                        value: 'Barchasi', child: Text('Barchasi')),
-                    DropdownMenuItem(value: 'Yangi', child: Text('Yangi')),
-                    DropdownMenuItem(
-                        value: 'Qabul qilingan', child: Text('Qabul qilingan')),
-                  ],
-                  onChanged: (value) {},
-                  hint: const Text('Filtrlash'),
+                Expanded(
+                  child: DropdownButton<int>(
+                    value: selectedSubordinateId,
+                    hint: const Text('Xodimni tanlang'),
+                    items: subordinates.map((person) {
+                      return DropdownMenuItem<int>(
+                        value: person['id'],
+                        child: Text(person['name']),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedSubordinateId = value;
+                        print(selectedSubordinateId);
+                      });
+                      _fetchControlCard();
+                    },
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Provider.of<ThemeProvider>(context, listen: false)
+                    Provider.of<PageProvider>(context, listen: false)
                         .updatePageByRoute('nazoratVaraqasiQoshishPage');
                   },
                   child: const Text('Nazorat varaqasi qo\'shish'),
@@ -87,8 +136,6 @@ class _NazoratVaraqalariState extends State<NazoratVaraqalari> {
               ],
             ),
             const SizedBox(height: 20),
-
-            // Content Area
             isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : Expanded(
@@ -112,116 +159,119 @@ class _NazoratVaraqalariState extends State<NazoratVaraqalari> {
       ),
     );
   }
+}
 
-  Widget _buildNewCard(Map<String, dynamic> card) {
-    return SizedBox(
-      width: 400,
-      height: 400,
-      child: Card(
-        // color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        elevation: 4,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '#${card['id']}',
-                  ),
-                  Row(
-                    children: [
-                      Image.asset('assets/images/edit.png', width: 30),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      SvgPicture.asset('assets/images/view.svg'),
-                      Column(
-                        children: [
-                          Text(
-                            'Hujjatni',
-                            style: TextStyle(fontSize: 10),
-                          ),
-                          Text('ko\'rish', style: TextStyle(fontSize: 10))
-                        ],
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Color(0xFF009DAE),
-                          borderRadius: BorderRadius.circular(5),
+Widget _buildNewCard(Map<String, dynamic> card) {
+  return Container(
+    width: 400,
+    height: 400,
+    child: Card(
+      color: Colors.white,
+      //  color: themeP,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 4,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '#${card['id']}',
+                ),
+                Row(
+                  children: [
+                    Image.asset('assets/images/edit.png', width: 30),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    SvgPicture.asset('assets/images/view.svg'),
+                    Column(
+                      children: [
+                        Text(
+                          'Hujjatni',
+                          style: TextStyle(fontSize: 10),
                         ),
-                        child: Text(
-                          '${card['rest_date']}',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
+                        Text('ko\'rish', style: TextStyle(fontSize: 10))
+                      ],
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: card['rest_date'] < 5
+                            ? Colors.red
+                            : Color(0xFF009DAE),
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      SizedBox(
-                        width: 5,
+                      child: Text(
+                        '${card['rest_date']}',
+                        style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Color(0xFF007AFF),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Text(
-                          '${card["status"]}',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-              const SizedBox(height: 10),
-              Text(
-                'Ijro uchun mas’ul: ${card["responsible_person"]}',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 5),
-              Text(
-                'Ijrochilar:  ${card["responsible_execution"]}',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 5),
-              Text(
-                'Hujjatning nomlanishi: Qomondonning buyruq #2025',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 5),
-              Text(
-                'Topshiriq vaqti: 01.04.2025',
-              ),
-              const SizedBox(height: 5),
-              Text(
-                'Ijro muddati: 01.04.2025',
-              ),
-              const SizedBox(height: 5),
-              Text(
-                'Mazmuni: lkjhafkldj;hsdksdkjfhksajldhflkjashdkljfghkljsdfhgkljsdfblkgjvbnzxlckjgkljhsdklsdkjfhksajldhflkjashdkljfghkljsdfhgkljsdfblkgjvbnzxlckjgkljhsdklsdkjfhksajldhflkjashdkljfghkljsdfhgkljsdfblkgjvbnzxlckjgkljhsdklsdkjfhksajldhflkjashdkljfghkljsdfhgkljsdfblkgjvbnzxlckjgkljhsdklsdkjfhksajldhflkjashdkljfghkljsdfhgkljsdfblkgjvbnzxlckjgkljhsdklsdkjfhksajldhflkjashdkljfghkljsdfhgkljsdfblkgjvbnzxlckjgkljhsdklsdkjfhksajldhflkjashdkljfghkljsdfhgkljsdfblkgjvbnzxlckjgkljhsdklsdkjfhksajldhflkjashdkljfghkljsdfhgkljsdfblkgjvbnzxlckjgkljhsdkljfhksajldhflkjashdkljfghkljsdfhgkljsdfblkgjvbnzxlckjgkljhsdkljfhkljasdhflkjhskjldfhka;wjheskjlfhlskjehdfkjszdhkfjSKJLd',
-                style: TextStyle(fontSize: 12),
-                maxLines: 4, // Максимальное количество строк
-                overflow: TextOverflow.ellipsis, // Установка троеточия
-              ),
-              const Spacer(),
-            ],
-          ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Color(0xFF007AFF),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Text(
+                        '${card["status"]}',
+                        style: TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'Ijro uchun mas’ul: ${card["responsible_person"]}',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 5),
+            Text(
+              'Ijrochilar:  ${card["responsible_execution"]}',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 5),
+            Text(
+              'Hujjatning nomlanishi: ${card["naming"]}',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 5),
+            Text(
+              'Topshiriq vaqti: ${card["assignment_time"]}',
+            ),
+            const SizedBox(height: 5),
+            Text(
+              'Ijro muddati: ${card["deadline"]}',
+            ),
+            const SizedBox(height: 5),
+            Text(
+              'Mazmuni: ${card["info_text"]}',
+              style: TextStyle(fontSize: 12),
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const Spacer(),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
 }

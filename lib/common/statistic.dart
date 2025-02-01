@@ -1,19 +1,18 @@
-import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:provider/provider.dart';
+
 
 class AdminStatistic extends StatelessWidget {
   const AdminStatistic({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+  
     return Container(
       height: 130,
       decoration: BoxDecoration(
-          color: themeProvider.getColor('background'),
+          // color: themeProvider.getColor('background'),
           borderRadius: BorderRadius.circular(10)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -57,14 +56,15 @@ class StatisticsWidgetNew extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+   
     return Flexible(
       child: Container(
         height: 130,
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: themeProvider.getColor('foreground')),
+            // color: themeProvider.getColor('foreground')
+            ),
         child: Row(
           children: [
             SizedBox(

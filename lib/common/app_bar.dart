@@ -29,7 +29,8 @@ class _MyCustomAppBarState extends State<MyCustomAppBar> {
       height: 60,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: themeProvider.getColor('foreground')),
+        //  color: themeProvider.getColor('foreground')
+          ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -44,8 +45,8 @@ class _MyCustomAppBarState extends State<MyCustomAppBar> {
               const SizedBox(width: 10),
               Text(
                 'Nazorat varaqalar monitoringi',
-                style: themeProvider.getTextStyle().copyWith(
-                    fontSize: 26, color: themeProvider.getColor('icon')),
+                // style: themeProvider.getTextStyle().copyWith(
+                //     fontSize: 26, color: themeProvider.getColor('icon')),
               ),
             ],
           ),
@@ -53,15 +54,15 @@ class _MyCustomAppBarState extends State<MyCustomAppBar> {
             children: [
               Text(
                 'Hozirgi vaqt:',
-                style: themeProvider
-                    .getTextStyle()
-                    .copyWith(fontWeight: FontWeight.bold),
+                // style: themeProvider
+                //     .getTextStyle()
+                //     .copyWith(fontWeight: FontWeight.bold),
               ),
               DigitalClock(
                   format: "Hms",
                   showSeconds: true,
                   isLive: true,
-                  digitalClockTextColor: themeProvider.getColor('text'),
+                  // digitalClockTextColor: themeProvider.getColor('text'),
                   decoration: const BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.all(Radius.circular(15))),
@@ -93,11 +94,11 @@ class _MyCustomAppBarState extends State<MyCustomAppBar> {
                 children: [
                   Text(
                     name ?? '',
-                    style: themeProvider.getTextStyle().copyWith(fontSize: 10),
+                    // style: themeProvider.getTextStyle().copyWith(fontSize: 10),
                   ),
                   Text(
                     lastName ?? '',
-                    style: themeProvider.getTextStyle().copyWith(fontSize: 10),
+                    // style: themeProvider.getTextStyle().copyWith(fontSize: 10),
                   ),
                 ],
               ),

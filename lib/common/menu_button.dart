@@ -1,9 +1,5 @@
-import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'package:provider/provider.dart';
-
 class AdminMenuButton extends StatelessWidget {
   const AdminMenuButton({
     super.key,
@@ -20,13 +16,13 @@ class AdminMenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+   
     return Padding(
       padding: EdgeInsets.only(left: 10, right: 10),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.only(left: 5),
-          backgroundColor: themeProvider.getColor('foreground'),
+          // backgroundColor: themeProvider.getColor('foreground'),
           shape: RoundedRectangleBorder(
             side: BorderSide(
               color: const Color.fromARGB(255, 228, 228, 228),
@@ -46,16 +42,16 @@ class AdminMenuButton extends StatelessWidget {
               svgname,
               width: 22,
               height: 22,
-              color: isSelected
-                  ? themeProvider.getColor('icon')
-                  : themeProvider.getColor('divider'),
+              // color: isSelected
+              //     ? themeProvider.getColor('icon')
+              //     : themeProvider.getColor('divider'),
             ),
             SizedBox(
               width: 10,
             ),
             Text(
               name,
-              style: themeProvider.getTextStyle(),
+              // style: themeProvider.getTextStyle(),
             ),
           ],
         ),

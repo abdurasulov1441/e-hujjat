@@ -1,5 +1,4 @@
 import 'package:e_hujjat/common/helpers/request_helper.dart';
-import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/provider/card_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -65,7 +64,7 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+  
     return Flexible(
         flex: 2,
         child: Container(
@@ -79,7 +78,7 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
               color: Color(0XFFFFF5F5)),
           child: Container(
             decoration: BoxDecoration(
-              color: themeProvider.getColor('foreground'),
+              // color: themeProvider.getColor('foreground'),
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(10),
                 bottomRight: Radius.circular(10),
@@ -92,35 +91,33 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
               children: [
                 Text(
                   'Mas’ullar haqida ma’lumot',
-                  style: themeProvider.getTextStyle().copyWith(
-                      color: themeProvider.getColor('icon'),
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
+                  // style: themeProvider.getTextStyle().copyWith(
+                  //     color: themeProvider.getColor('icon'),
+                  //     fontSize: 20,
+                  //     fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
                   'Nazorat varaqasi uchun Qo’riqlash bosh boshqarma boshlig’ining o’rinbosarlarni mas’ul qilib belgilab berasiz.',
-                  style: themeProvider.getTextStyle().copyWith(
-                        color: themeProvider.getColor('icon'),
-                      ),
+                  // style: themeProvider.getTextStyle().copyWith(
+                  //       color: themeProvider.getColor('icon'),
+                  //     ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 DropdownButtonFormField<int>(
-                  dropdownColor: themeProvider.getColor('foreground'),
+                  // dropdownColor: themeProvider.getColor('foreground'),
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   isExpanded: true,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: themeProvider.getColor('icon')),
+                        borderSide: BorderSide(),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: themeProvider.getColor('icon')),
+                        borderSide: BorderSide(),
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -129,8 +126,10 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
                   items: departments.map((department) {
                     return DropdownMenuItem<int>(
                       value: department['id'],
-                      child: Text(department['name'],
-                          style: themeProvider.getTextStyle().copyWith()),
+                      child: Text(
+                        department['name'],
+                        // style: themeProvider.getTextStyle().copyWith()
+                      ),
                     );
                   }).toList(),
                   onChanged: (value) {
@@ -152,8 +151,8 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
                     final department =
                         departments.firstWhere((dep) => dep['id'] == id);
                     return Chip(
-                      deleteIconColor: themeProvider.getColor('icon'),
-                      backgroundColor: themeProvider.getColor('background'),
+                      // deleteIconColor: themeProvider.getColor('icon'),
+                      // backgroundColor: themeProvider.getColor('background'),
                       label: Text(department['name']),
                       onDeleted: () {
                         setState(() {
@@ -170,10 +169,10 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
                 if (responsiblePersons.isNotEmpty) ...[
                   Text(
                     'Mas’ul shaxslar:',
-                    style: themeProvider.getTextStyle().copyWith(
-                        color: themeProvider.getColor('icon'),
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                    // style: themeProvider.getTextStyle().copyWith(
+                    //     color: themeProvider.getColor('icon'),
+                    //     fontSize: 16,
+                    //     fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: 10,
@@ -192,9 +191,9 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
                           ),
                           Text(
                             person['name'],
-                            style: themeProvider.getTextStyle().copyWith(
-                                  color: themeProvider.getColor('icon'),
-                                ),
+                            // style: themeProvider.getTextStyle().copyWith(
+                            //       color: themeProvider.getColor('icon'),
+                            //     ),
                           ),
                         ],
                       );
@@ -207,10 +206,10 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
                 if (subordinates.isNotEmpty) ...[
                   Text(
                     'Ijrochilar:',
-                    style: themeProvider.getTextStyle().copyWith(
-                        color: themeProvider.getColor('icon'),
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                    // style: themeProvider.getTextStyle().copyWith(
+                    //     color: themeProvider.getColor('icon'),
+                    //     fontSize: 16,
+                    //     fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: 10,
@@ -222,19 +221,19 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
                       final isSelected =
                           selectedSubordinates.contains(subordinate['id']);
                       return FilterChip(
-                        checkmarkColor: isSelected
-                            ? themeProvider.getColor('background')
-                            : themeProvider.getColor('icon'),
-                        selectedColor: isSelected
-                            ? themeProvider.getColor('icon')
-                            : Colors.green,
-                        backgroundColor: themeProvider.getColor('background'),
+                        // checkmarkColor: isSelected
+                        //     ? themeProvider.getColor('background')
+                        //     : themeProvider.getColor('icon'),
+                        // selectedColor: isSelected
+                        //     ? themeProvider.getColor('icon')
+                        //     : Colors.green,
+                        // backgroundColor: themeProvider.getColor('background'),
                         label: Text(
                           subordinate['name'],
-                          style: themeProvider.getTextStyle().copyWith(
-                              color: isSelected
-                                  ? themeProvider.getColor('foreground')
-                                  : themeProvider.getColor('text')),
+                          // style: themeProvider.getTextStyle().copyWith(
+                          //     color: isSelected
+                          //         ? themeProvider.getColor('foreground')
+                          //         : themeProvider.getColor('text')),
                         ),
                         selected: isSelected,
                         onSelected: (selected) {
@@ -255,11 +254,10 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
                     children: [
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              backgroundColor:
-                                  themeProvider.getColor('background')),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                          ),
                           onPressed: () {
                             final selectedData = {
                               'departments': selectedDepartments,
@@ -280,14 +278,14 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
                               children: [
                                 Text(
                                   'Nazorat haqida ma’lumot',
-                                  style: themeProvider.getTextStyle(),
+                                  // style: themeProvider.getTextStyle(),
                                 ),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 Icon(
                                   Icons.arrow_forward,
-                                  color: themeProvider.getColor('icon'),
+                                  // color: themeProvider.getColor('icon'),
                                 ),
                               ],
                             ),

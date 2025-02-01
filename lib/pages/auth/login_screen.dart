@@ -1,12 +1,10 @@
 import 'package:e_hujjat/app/router.dart';
 import 'package:e_hujjat/common/helpers/request_helper.dart';
-import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:e_hujjat/db/cache.dart';
 import 'package:elegant_notification/elegant_notification.dart';
 import 'package:elegant_notification/resources/arrays.dart';
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -120,9 +118,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+  
     return Scaffold(
-      backgroundColor: themeProvider.getColor('background'),
+      // backgroundColor: themeProvider.getColor('background'),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 100),
@@ -143,14 +141,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 20),
                 Center(
                   child: Text('Xush kelibsiz!',
-                      style: themeProvider
-                          .getTextStyle()
-                          .copyWith(fontSize: 28, fontWeight: FontWeight.bold)),
+                      // style: themeProvider
+                      //     .getTextStyle()
+                      //     .copyWith(fontSize: 28, fontWeight: FontWeight.bold)
+                          ),
                 ),
                 const SizedBox(height: 10),
                 Center(
                   child: Text('Tizimga kirishingiz mumkin',
-                      style: themeProvider.getTextStyle()),
+                      // style: themeProvider.getTextStyle()
+                      ),
                 ),
                 const SizedBox(height: 30),
                 SizedBox(
@@ -161,11 +161,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: emailController,
                         decoration: InputDecoration(
-                          hoverColor: themeProvider.getColor('hoverColor'),
+                          // hoverColor: themeProvider.getColor('hoverColor'),
                           filled: true,
-                          fillColor: themeProvider.getColor('foreground'),
+                          // fillColor: themeProvider.getColor('foreground'),
                           hintText: 'Login',
-                          hintStyle: themeProvider.getTextStyle(),
+                          // hintStyle: themeProvider.getTextStyle(),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide.none,
@@ -183,11 +183,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: passwordController,
                         obscureText: isHiddenPassword,
                         decoration: InputDecoration(
-                          hoverColor: themeProvider.getColor('hoverColor'),
+                          // hoverColor: themeProvider.getColor('hoverColor'),
                           filled: true,
-                          fillColor: themeProvider.getColor('foreground'),
+                          // fillColor: themeProvider.getColor('foreground'),
                           hintText: 'Parol',
-                          hintStyle: themeProvider.getTextStyle(),
+                          // hintStyle: themeProvider.getTextStyle(),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide.none,
@@ -197,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               isHiddenPassword
                                   ? Icons.visibility_off
                                   : Icons.visibility,
-                              color: themeProvider.getColor('icon'),
+                              // color: themeProvider.getColor('icon'),
                             ),
                             onPressed: togglePasswordView,
                           ),
@@ -213,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ElevatedButton(
                         onPressed: login,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: themeProvider.getColor('icon'),
+                          // backgroundColor: themeProvider.getColor('icon'),
                           minimumSize: const Size(double.infinity, 50),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),

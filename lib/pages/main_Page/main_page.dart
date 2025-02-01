@@ -2,6 +2,7 @@ import 'package:e_hujjat/common/bottom_card.dart';
 import 'package:e_hujjat/common/calendar.dart';
 import 'package:e_hujjat/common/diagram.dart';
 import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
+import 'package:e_hujjat/common/provider/page_provider.dart';
 import 'package:e_hujjat/common/statistic.dart';
 import 'package:flutter/material.dart';
 import 'package:e_hujjat/common/app_bar.dart';
@@ -26,11 +27,11 @@ class _KotibiyatPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+    final pageProvider = Provider.of<PageProvider>(context);
 
     return Scaffold(
       appBar: MyCustomAppBar(),
-      backgroundColor: themeProvider.getColor('background'),
+      // backgroundColor: themeProvider.getColor('background'),
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
@@ -42,7 +43,7 @@ class _KotibiyatPageState extends State<MainPage> {
                 margin: const EdgeInsets.all(10),
                 child: UniversalMenu(
                   onMenuSelected: (page) {
-                    themeProvider.updatePage(page);
+                    // themeProvider.updatePage(page);
                   },
                 ),
               ),
@@ -51,7 +52,7 @@ class _KotibiyatPageState extends State<MainPage> {
               flex: 4,
               child: Consumer<ThemeProvider>(
                 builder: (context, themeProvider, child) {
-                  return themeProvider.currentPage;
+                  return pageProvider.currentPage;
                 },
               ),
             ),
