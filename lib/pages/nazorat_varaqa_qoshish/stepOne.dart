@@ -1,3 +1,4 @@
+import 'package:e_hujjat/app/theme.dart';
 import 'package:e_hujjat/common/helpers/request_helper.dart';
 import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/provider/card_provider.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +65,7 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
 
   @override
   Widget build(BuildContext context) {
-  
+    final theme = Theme.of(context);
     return Flexible(
         flex: 2,
         child: Container(
@@ -75,9 +76,10 @@ class _NazoratVaraqasiQoshishState extends State<StepOne> {
                 topRight: Radius.circular(10),
                 bottomRight: Radius.circular(10),
               ),
-              color: Color(0XFFFFF5F5)),
+              color: theme.secondaryHeaderColor),
           child: Container(
             decoration: BoxDecoration(
+              color: theme.cardColor,
               // color: themeProvider.getColor('foreground'),
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(10),

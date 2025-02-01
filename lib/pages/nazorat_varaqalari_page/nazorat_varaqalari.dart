@@ -71,8 +71,6 @@ class _NazoratVaraqalariState extends State<NazoratVaraqalari> {
 
   @override
   Widget build(BuildContext context) {
-   
-
     return Scaffold(
       // backgroundColor: themeProvider.getColor('background'),
       body: Padding(
@@ -166,8 +164,6 @@ Widget _buildNewCard(Map<String, dynamic> card) {
     width: 400,
     height: 400,
     child: Card(
-      color: Colors.white,
-      //  color: themeP,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),

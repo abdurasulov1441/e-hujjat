@@ -3,7 +3,6 @@ import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/stepThree.dart';
 import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/stepTwo.dart';
 import 'package:flutter/material.dart';
 
-
 class NazoratVaraqasiQoshish extends StatefulWidget {
   const NazoratVaraqasiQoshish({super.key});
 
@@ -22,6 +21,7 @@ class _NazoratVaraqasiQoshishState extends State<NazoratVaraqasiQoshish> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       // backgroundColor: themeProvider.getColor('background'),
       body: Row(
@@ -31,7 +31,7 @@ class _NazoratVaraqasiQoshishState extends State<NazoratVaraqasiQoshish> {
             child: Container(
               margin: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
               decoration: BoxDecoration(
-                color: Color(0xFFFFF5F5),
+                color: theme.secondaryHeaderColor,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10)),

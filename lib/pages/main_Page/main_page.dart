@@ -43,7 +43,7 @@ class _KotibiyatPageState extends State<MainPage> {
                 margin: const EdgeInsets.all(10),
                 child: UniversalMenu(
                   onMenuSelected: (page) {
-                    // themeProvider.updatePage(page);
+                    pageProvider.updatePage(page);
                   },
                 ),
               ),
