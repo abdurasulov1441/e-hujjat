@@ -1,12 +1,12 @@
-import 'package:e_hujjat/common/bottom_card.dart';
-import 'package:e_hujjat/common/calendar.dart';
-import 'package:e_hujjat/common/diagram.dart';
+import 'package:e_hujjat/common/widgets/bottom_card.dart';
+import 'package:e_hujjat/common/widgets/calendar.dart';
+import 'package:e_hujjat/common/widgets/diagram.dart';
 import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
 import 'package:e_hujjat/common/provider/page_provider.dart';
-import 'package:e_hujjat/common/statistic.dart';
+import 'package:e_hujjat/common/widgets/statistic.dart';
 import 'package:flutter/material.dart';
-import 'package:e_hujjat/common/app_bar.dart';
-import 'package:e_hujjat/common/menu.dart';
+import 'package:e_hujjat/common/widgets/app_bar.dart';
+import 'package:e_hujjat/common/widgets/menu.dart';
 import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {

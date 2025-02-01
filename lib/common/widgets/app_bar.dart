@@ -19,6 +19,7 @@ class _MyCustomAppBarState extends State<MyCustomAppBar> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final theme = Theme.of(context);
 
     final name = cache.getString('first_name');
     final photo = cache.getString('photo');
@@ -28,8 +29,8 @@ class _MyCustomAppBarState extends State<MyCustomAppBar> {
       width: double.infinity,
       height: 60,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-        //  color: themeProvider.getColor('foreground')
+          borderRadius: BorderRadius.circular(10), color: theme.cardColor
+          //  color: themeProvider.getColor('foreground')
           ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

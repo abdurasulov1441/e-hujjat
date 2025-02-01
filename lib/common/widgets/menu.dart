@@ -1,5 +1,5 @@
 import 'package:e_hujjat/app/router.dart';
-import 'package:e_hujjat/common/calendar.dart';
+import 'package:e_hujjat/common/widgets/calendar.dart';
 import 'package:e_hujjat/common/helpers/request_helper.dart';
 import 'package:e_hujjat/db/cache.dart';
 import 'package:e_hujjat/pages/main_Page/main_page.dart';
@@ -7,8 +7,7 @@ import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/nazorat_varaqasi.dart';
 import 'package:e_hujjat/pages/nazorat_varaqalari_page/nazorat_varaqalari.dart';
 
 import 'package:flutter/material.dart';
-import 'package:e_hujjat/common/menu_button.dart';
-
+import 'package:e_hujjat/common/widgets/menu_button.dart';
 
 class UniversalMenu extends StatefulWidget {
   final Function(Widget) onMenuSelected;
@@ -68,10 +67,12 @@ class _UniversalMenuState extends State<UniversalMenu> {
 
   @override
   Widget build(BuildContext context) {
-   
+    final theme = Theme.of(context);
+
     return Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
+        color: theme.cardColor,
         // color: themeProvider.getColor('foreground'),
         borderRadius: BorderRadius.circular(10),
       ),
