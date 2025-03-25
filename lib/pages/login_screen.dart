@@ -1,10 +1,13 @@
 import 'package:e_hujjat/app/router.dart';
+import 'package:e_hujjat/common/db/cache.dart';
 import 'package:e_hujjat/common/helpers/request_helper.dart';
-import 'package:e_hujjat/db/cache.dart';
-import 'package:elegant_notification/elegant_notification.dart';
-import 'package:elegant_notification/resources/arrays.dart';
+import 'package:e_hujjat/common/socket_service.dart';
+import 'package:e_hujjat/common/style/app_colors.dart';
+import 'package:e_hujjat/common/style/app_style.dart';
+import 'package:e_hujjat/common/utils/toats/error.dart';
+import 'package:e_hujjat/common/utils/toats/succes.dart';
 import 'package:flutter/material.dart';
-
+import 'package:window_manager/window_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,10 +22,12 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  @override
-  void initState() {
-    super.initState();
-  }
+@override
+void initState() {
+  super.initState();
+
+}
+
 
   void togglePasswordView() {
     setState(() {
@@ -30,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  final socketIOService = SocketIOService();
   Future<void> login() async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
@@ -43,84 +49,31 @@ class _LoginScreenState extends State<LoginScreen> {
           },
           log: true);
       if (response['accessToken'] != null && response['refreshToken'] != null) {
-        cache.setString('access_token', response['accessToken']);
-        cache.setString('refreshToken', response['refreshToken']);
-        cache.setInt('user_role', response['user']['role_id']);
-        cache.setString('photo', response['user']['photo']);
-        cache.setString('first_name', response['user']['first_name']);
-        cache.setString('surname', response['user']['surname']);
-        cache.setString('last_name', response['user']['last_name']);
+        cache.setInt('user_id', response['user']['id']);
+        String status = response['message'];
+        socketIOService.connect(response['user']['id']);
+        showSuccessToast(context, 'Muvofaqiyatli', status);
 
-        router.go(Routes.mainPage);
-        // switch (response['user']['role_id']) {
-        //   case 1:
-        //     router.go(Routes.supperAdminPage);
+        cache.setInt('user_id', response['user']['id']);
+        socketIOService.connect(response['user']['id']);
+        await windowManager.hide();
+        await windowManager.setSkipTaskbar(true);
 
-        //     break;
-        //   case 2:
-        //     router.go(Routes.kotibiyatPage);
-        //     break;
-        //   case 3:
-        //     router.go(Routes.orinbosarlarPage);
-        //     break;
-        //   case 4:
-        //     router.go(Routes.boshqarmaBoshliqlariPage);
-        //     break;
-        //   case 5:
-        //     router.go(Routes.bolimBoshliqlariPage);
-        //     break;
-        //   case 6:
-        //     router.go(Routes.inspektorlarPage);
-        //     break;
-        //   default:
-        //     print('defolt');
-        // }
+        router.go(Routes.home);
       } else {
         String status = response['message'];
-        ElegantNotification.success(
-          width: 360,
-          isDismissable: false,
-          animationCurve: Curves.easeInOut,
-          position: Alignment.topCenter,
-          animation: AnimationType.fromTop,
-          title: Text('Xatolik'),
-          description: Text(status),
-          onDismiss: () {},
-          onNotificationPressed: () {},
-          shadow: BoxShadow(
-            color: Colors.green,
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 4),
-          ),
-        ).show(context);
+        showSuccessToast(context, 'Xatolik', status);
       }
     } catch (error) {
-      ElegantNotification.success(
-        width: 360,
-        isDismissable: false,
-        animationCurve: Curves.easeInOut,
-        position: Alignment.topCenter,
-        animation: AnimationType.fromTop,
-        title: Text('Sizning Ip manzilingizga ruhsat yo\'q'),
-        description: Text('Kiberxavsizlikka murojaat qiling'),
-        onDismiss: () {},
-        onNotificationPressed: () {},
-        shadow: BoxShadow(
-          color: Colors.green,
-          spreadRadius: 2,
-          blurRadius: 5,
-          offset: const Offset(0, 4),
-        ),
-      ).show(context);
+      showErrorToast(context, 'Xatolik', error.toString());
     }
   }
 
   @override
   Widget build(BuildContext context) {
-  
+    final userToken = cache.getInt('user_id');
     return Scaffold(
-      // backgroundColor: themeProvider.getColor('background'),
+      backgroundColor: AppColors.backgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 100),
@@ -140,17 +93,24 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20),
                 Center(
-                  child: Text('Xush kelibsiz!',
-                      // style: themeProvider
-                      //     .getTextStyle()
-                      //     .copyWith(fontSize: 28, fontWeight: FontWeight.bold)
-                          ),
+                  child: Text(
+                    'Xush kelibsiz!',
+                    style: AppStyle.fontStyle.copyWith(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
+                
                 const SizedBox(height: 10),
                 Center(
-                  child: Text('Tizimga kirishingiz mumkin',
-                      // style: themeProvider.getTextStyle()
-                      ),
+                  child: Text(
+                    'Tizimga kirishingiz mumkin',
+                    style: AppStyle.fontStyle.copyWith(
+                      fontSize: 16,
+                      color: AppColors.textColor,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 30),
                 SizedBox(
@@ -161,11 +121,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: emailController,
                         decoration: InputDecoration(
-                          // hoverColor: themeProvider.getColor('hoverColor'),
+                          hoverColor: AppColors.uiText,
                           filled: true,
-                          // fillColor: themeProvider.getColor('foreground'),
+                          fillColor: AppColors.ui,
                           hintText: 'Login',
-                          // hintStyle: themeProvider.getTextStyle(),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide.none,
@@ -183,11 +142,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: passwordController,
                         obscureText: isHiddenPassword,
                         decoration: InputDecoration(
-                          // hoverColor: themeProvider.getColor('hoverColor'),
+                          hoverColor: AppColors.uiText,
                           filled: true,
-                          // fillColor: themeProvider.getColor('foreground'),
+                          fillColor: AppColors.ui,
                           hintText: 'Parol',
-                          // hintStyle: themeProvider.getTextStyle(),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide: BorderSide.none,
@@ -197,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               isHiddenPassword
                                   ? Icons.visibility_off
                                   : Icons.visibility,
-                              // color: themeProvider.getColor('icon'),
+                              color: AppColors.iconColor,
                             ),
                             onPressed: togglePasswordView,
                           ),
@@ -213,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ElevatedButton(
                         onPressed: login,
                         style: ElevatedButton.styleFrom(
-                          // backgroundColor: themeProvider.getColor('icon'),
+                          backgroundColor: AppColors.iconColor,
                           minimumSize: const Size(double.infinity, 50),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),

@@ -26,4 +26,6 @@ abstract class Cache {
   Future<void> remove(String key);
 
   Future<void> clear();
+
+  Future<void> init();
 }

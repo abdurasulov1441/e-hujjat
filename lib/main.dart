@@ -1,44 +1,87 @@
-import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:e_hujjat/common/provider/page_provider.dart';
-import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/provider/card_provider.dart';
-import 'package:e_hujjat/pages/nazorat_varaqa_qoshish/provider/step_two_provider.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:e_hujjat/app/router.dart';
 import 'package:flutter/material.dart';
-import 'package:e_hujjat/app/app.dart';
-import 'package:e_hujjat/common/locale/notifiers/locale_notifier.dart';
-import 'package:e_hujjat/common/provider/change_notifier_provider.dart';
-import 'package:e_hujjat/db/cache.dart';
-import 'package:provider/provider.dart';
+import 'package:window_manager/window_manager.dart';
+import 'package:tray_manager/tray_manager.dart';
+import 'package:e_hujjat/pages/login_screen.dart';
+import 'package:e_hujjat/common/db/cache.dart';
+import 'package:e_hujjat/common/socket_service.dart';
+
+final socketIOService = SocketIOService();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+  await cache.init();
 
-  EasyLocalization.logger.enableLevels = [];
-  await EasyLocalization.ensureInitialized();
-  await initializeCache();
+  await trayManager.setIcon('assets/images/logo.ico');
+  trayManager.addListener(MyTrayListener());
+  await trayManager.setContextMenu(Menu(items: [
+    MenuItem(key: 'open', label: 'Ochilish'),
+    MenuItem(key: 'exit', label: 'Chiqish'),
+  ]));
 
-  runApp(
-    EasyLocalization(
-      path: 'assets/translations',
-      supportedLocales: LocaleNotifier.supportedLocales,
-      startLocale: LocaleNotifier.startLocale,
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => ThemeProvider(cache)),
-          ChangeNotifierProvider(create: (_) => ControlCardProvider()),
-          ChangeNotifierProvider(create: (_) => StepTwoProvider()),
-          ChangeNotifierProvider(create: (_) => PageProvider()),
-        ],
-        child: const App(),
-      ),
-    ),
+  final userId = cache.getInt('user_id');
+  if (userId != null) {
+    socketIOService.connect(userId);
+  }
+
+  WindowOptions windowOptions = WindowOptions(
+    size: const Size(800, 600),
+    center: true,
+    backgroundColor: Colors.transparent,
+    skipTaskbar: userId != null,
+    titleBarStyle: TitleBarStyle.normal,
   );
-  doWhenWindowReady(() {
-    const initialSize = Size(1366, 768);
-    appWindow.minSize = initialSize;
-    appWindow.size = initialSize;
-    appWindow.alignment = Alignment.center;
-    appWindow.title = "Nazorat varaqasi";
-    appWindow.show();
+  windowManager.waitUntilReadyToShow(windowOptions).then((_) async {
+    if (userId != null) {
+      await windowManager.hide();
+    } else {
+      await windowManager.show();
+    }
   });
+
+  runApp(MyApp(hasUser: userId != null));
+}
+
+class MyApp extends StatelessWidget {
+  final bool hasUser;
+
+  const MyApp({super.key, required this.hasUser});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: hasUser
+          ? Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Container(),
+            )
+          : const LoginScreen(),
+    );
+  }
+}
+
+class MyTrayListener with TrayListener {
+  @override
+  void onTrayIconMouseDown() {
+    trayManager.popUpContextMenu();
+  }
+
+  @override
+  void onTrayMenuItemClick(MenuItem menuItem) async {
+    switch (menuItem.key) {
+      case 'open':
+        await windowManager.show();
+        await windowManager.setSkipTaskbar(false);
+        router.go(Routes.loginPage);
+        break;
+      case 'exit':
+        socketIOService.disconnect();
+        trayManager.destroy();
+        windowManager.destroy();
+        cache.clear();
+        break;
+    }
+  }
 }
